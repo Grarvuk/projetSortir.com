@@ -84,6 +84,9 @@
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
+    "monolog/monolog": {
+        "version": "1.25.5"
+    },
     "nikic/php-parser": {
         "version": "v4.10.2"
     },
@@ -153,6 +156,21 @@
     },
     "symfony/debug": {
         "version": "v4.4.15"
+    },
+    "symfony/debug-bundle": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "f8863cbad2f2e58c4b65fa1eac892ab189971bea"
+        },
+        "files": [
+            "./config/packages/dev/debug.yaml"
+        ]
+    },
+    "symfony/debug-pack": {
+        "version": "v1.0.8"
     },
     "symfony/dependency-injection": {
         "version": "v4.4.15"
@@ -241,6 +259,24 @@
     "symfony/mime": {
         "version": "v4.4.15"
     },
+    "symfony/monolog-bridge": {
+        "version": "v4.4.15"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "d7249f7d560f6736115eee1851d02a65826f0a56"
+        },
+        "files": [
+            "./config/packages/dev/monolog.yaml",
+            "./config/packages/prod/deprecations.yaml",
+            "./config/packages/prod/monolog.yaml",
+            "./config/packages/test/monolog.yaml"
+        ]
+    },
     "symfony/options-resolver": {
         "version": "v4.4.15"
     },
@@ -268,8 +304,20 @@
     "symfony/polyfill-php80": {
         "version": "v1.18.1"
     },
+    "symfony/profiler-pack": {
+        "version": "v1.0.5"
+    },
     "symfony/property-access": {
         "version": "v4.4.15"
+    },
+    "symfony/requirements-checker": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "02c6e4b9b117c39e8a23eab7f3840ef6e62293b9"
+        }
     },
     "symfony/routing": {
         "version": "4.2",
@@ -284,6 +332,30 @@
             "./config/packages/routing.yaml",
             "./config/routes.yaml"
         ]
+    },
+    "symfony/security-bundle": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.4",
+            "ref": "7b4408dc203049666fe23fabed23cbadc6d8440f"
+        },
+        "files": [
+            "./config/packages/security.yaml"
+        ]
+    },
+    "symfony/security-core": {
+        "version": "v4.4.15"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.4.15"
+    },
+    "symfony/security-guard": {
+        "version": "v4.4.15"
+    },
+    "symfony/security-http": {
+        "version": "v4.4.15"
     },
     "symfony/service-contracts": {
         "version": "v2.2.0"
@@ -314,11 +386,38 @@
     "symfony/twig-pack": {
         "version": "v1.0.0"
     },
+    "symfony/validator": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "d902da3e4952f18d3bf05aab29512eb61cabd869"
+        },
+        "files": [
+            "./config/packages/test/validator.yaml",
+            "./config/packages/validator.yaml"
+        ]
+    },
     "symfony/var-dumper": {
         "version": "v4.4.15"
     },
     "symfony/var-exporter": {
         "version": "v4.4.15"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "./config/packages/dev/web_profiler.yaml",
+            "./config/packages/test/web_profiler.yaml",
+            "./config/routes/dev/web_profiler.yaml"
+        ]
     },
     "symfony/yaml": {
         "version": "v4.4.15"
