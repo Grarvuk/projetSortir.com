@@ -15,35 +15,42 @@ class RegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $lesClass = "inputInscription form-control ";
         $builder
             ->add("pseudo", null, [
                 "label" => "Pseudo"
+                , 'attr' => ['class' => $lesClass]
             ])
             ->add("nom", null, [
                 "label" => "Nom"
+                , 'attr' => ['class' => $lesClass]
             ])
             ->add("prenom", null, [
                 "label" => "Prénom"
+                , 'attr' => ['class' => $lesClass]
             ])
             ->add("telephone", null, [
                 "label" => "Téléphone"
+                , 'attr' => ['class' => $lesClass]
             ])
             ->add("mail", EmailType::Class, [
                 "label" => "mail"
+                , 'attr' => ['class' => $lesClass]
             ])
             ->add("campus", null, [
                 "label" => "Campus"
+                , 'attr' => ['class' => $lesClass]
             ])
             ->add("mot_de_passe", RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe n\'a pas été correctement réécris.',
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Réécrire le mot de passe'],
+                'first_options'  => ['label' => 'Mot de passe', 'attr' => ['class' => $lesClass]],
+                'second_options' => ['label' => 'Réécrire le mot de passe', 'attr' => ['class' => $lesClass]],
             ], [
                 "label" => "Mot de passe"
             ])
-            ->add('submit', SubmitType::class, ['label'=>'Confirmer', 'attr'=>['class'=>'']])
+            ->add('submit', SubmitType::class, ['label'=>'Confirmer', 'attr'=>['class'=>$lesClass."btn-success"]])
         ;
     }
 

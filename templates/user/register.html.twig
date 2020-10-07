@@ -2,9 +2,12 @@
 
 {% block title%} S'inscrire {% endblock %}
 
+{% block cssBonus%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
+
 {% block body %}
     S'inscrire <br>
     <div>
+        
         {{ form_start(userForm) }}
         {{ form_widget(userForm) }}
         {{ form_end(userForm) }}
