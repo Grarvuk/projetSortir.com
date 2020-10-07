@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Se connecter {% endblock %}
+
+{% block body %}
+    Se connecter <br>
+    <form method="post">
+        <label for="username">Login</label>
+        <input name="_username" id="username">
+
+        <label for="password">Mot de passe</label>
+        <input type="password" name="_password" id="password">
+
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}

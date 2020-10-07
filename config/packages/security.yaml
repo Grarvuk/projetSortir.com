@@ -4,7 +4,7 @@ security:
         our_db_provider:
             entity:
                 class: App\Entity\Participant
-                property: username
+                property: pseudo
     firewalls:
         main:
             pattern:   ^/
