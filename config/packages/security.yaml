@@ -23,4 +23,6 @@ security:
             algorithm: bcrypt
 
     access_control:
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/sortie, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
