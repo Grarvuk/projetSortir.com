@@ -5,11 +5,12 @@ namespace App\Entity;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Campus;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  */
-class Participant
+class Participant implements UserInterface
 {
 
     /**
@@ -70,6 +71,12 @@ class Participant
         return $this->id;
     }
 
+    //obligatoire
+    public function getUsername(): ?String
+    {
+        return $this->pseudo;
+    }
+
     public function getPseudo(): ?String
     {
         return $this->pseudo;
@@ -95,7 +102,13 @@ class Participant
         return $this->mail;
     }
 
-    public function getMdp(): ?String
+    //obligatoire
+    public function getPassword(): ?String
+    {
+        return $this->mot_de_passe;
+    }
+
+    public function getMotDePasse(): ?String
     {
         return $this->mot_de_passe;
     }
@@ -113,6 +126,11 @@ class Participant
     public function getCampus()
     {
         return $this->campus;
+    }
+
+    public function getRoles()
+    {
+        return ["ROLE_USER"];
     }
 
     ///////////Setter///////////
@@ -141,7 +159,11 @@ class Participant
     {
         $this->mail = $pMail;
     }
-    public function setMdp($pMdp)
+    public function setPassword($pMdp)
+    {
+        $this->mot_de_passe = $pMdp;
+    }
+    public function setMotDePasse($pMdp)
     {
         $this->mot_de_passe = $pMdp;
     }
@@ -158,4 +180,10 @@ class Participant
     {
         $this->campus = $pCampus;
     }
+
+    ///////////Ne sert à rien mais doit être implentées////////////////
+
+    public function eraseCredentials(){}
+    public function getSalt(){}
+    public function getCredentials(){}
 }

@@ -3,7 +3,7 @@ security:
     providers:
         our_db_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Participant
                 property: username
     firewalls:
         main:
@@ -19,7 +19,7 @@ security:
                 target: /
 
     encoders:
-        App\Entity\User:
+        App\Entity\Participant:
             algorithm: bcrypt
 
             # activate different ways to authenticate
