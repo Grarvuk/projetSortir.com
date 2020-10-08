@@ -115,17 +115,20 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/profile", name="profile")
+     * @Route("/user/profile/{id}", name="profile", requirements={"id":"\d+"})
      */
-    public function profile()
+    public function profile($id)
     {
-        
-    
-        return $this->render('user/login.html.twig', [
-            'error' => $error,
-        ]);
+        $userRepo = $this->getDoctrine()->getRepository(Participant::class);
+        $user = $userRepo->find($id);
+
+        if(empty($user)){
+            throw $this->createNotFoundException("This user do not exists !");
+        }
+
+        return $this->render('user/user.html.twig', compact("user"));
     }
-    
+
     public function anonymousOnly()
     {
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')||

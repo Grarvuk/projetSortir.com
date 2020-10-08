@@ -44,7 +44,7 @@ class SortieType extends AbstractType
             ])
             ->add('nbinscriptionsmax', IntegerType::class, [
                 "label" => "Nombre d'inscription max"
-                , 'attr' => ['class' => 'tinymce']
+                , 'attr' => ['class' => $lesClass]
             ])
             ->add('descriptioninfos', null, [
                 "label" => "Description"
