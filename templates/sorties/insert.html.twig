@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Créer une sortie {% endblock %}
+
+{% block cssBonus%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
+
+{% block body %}
+    Créer une sortie <br>
+    <div>
+        {{ form_start(sortieForm) }}
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.datedebut) }}
+            {{ form_row(sortieForm.duree) }}
+            {{ form_row(sortieForm.datecloture) }}
+            {{ form_row(sortieForm.nbinscriptionsmax) }}
+            {{ form_row(sortieForm.descriptioninfos) }}
+            {{ form_row(sortieForm.campus) }}
+            {{ form_row(sortieForm.etat) }}
+            {{ form_row(sortieForm.lieu) }}
+            <a href="/sorties/insertlieu">Ajouter un lieu</a>
+            {{ form_row(sortieForm.submit) }}
+        {{ form_end(sortieForm) }}
+    </div>
+{% endblock %}

@@ -35,4 +35,9 @@ class Etat
     {
         return $this->id;
     }
+
+    public function __toString(): string
+    {
+        return $this->getLibelle();
+    }
 }

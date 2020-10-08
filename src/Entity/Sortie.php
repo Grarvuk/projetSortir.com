@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Etat;
 use App\Entity\Lieu;
+use App\Entity\Campus;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -28,7 +29,7 @@ class Sortie
     */
     private $datedebut;
     /**
-    * @ORM\Column(type="integer", nullable=true)
+    * @ORM\Column(type="time", nullable=true)
     */
     private $duree;
     /**
@@ -58,11 +59,15 @@ class Sortie
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu")
     */
-    private $lieu;
+	private $lieu;
+	/**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
+    */
+	private $campus;
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\Etat")
     */
-    private $etat;
+	private $etat;
 
 
 
@@ -150,13 +155,20 @@ class Sortie
 		return $this->etat;
 	}
 
-	public function etat($etat) {
+	public function setEtat($etat) {
 		$this->etat = $etat;
 	}
 
+	public function getCampus() {
+		return $this->campus;
+	}
+
+	public function setCampus($campus) {
+		$this->campus = $campus;
+	}
 
     public function getId()
     {
         return $this->id;
-    }
+	}
 }
