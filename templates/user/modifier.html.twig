@@ -1,8 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block main %}
-    {{ form_start(participantForm) }}
-    {{ form_widget(participantForm) }}
-    <button type="submit">Modifier le profil</button>
-    {{ form_end(participantForm) }}
+{% block cssBonus %}
+    <link rel="stylesheet" href="{{ asset("css/register.css") }}">
+{% endblock %}
+
+{% block title %}
+    Modifier profil
+{% endblock %}
+
+{% block body %}
+    Modifier son profil <br>
+    <div>
+        {{ form_start(userForm) }}
+        {{ form_widget(userForm) }}
+        {{ form_end(userForm) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    
 {% endblock %}

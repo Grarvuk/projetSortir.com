@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\ParticipantType;
 use App\Entity\Participant;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -58,27 +57,39 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/ModifierParticipant", name="ModifierParticipant")
+     * @Route("/modifierprofil", name="modifierprofil")
      */
-    public function modifierParticipant(Request $request)
-    {
-        $participantRepo = $this->getDoctrine()->getRepository(Participant::class);
-        
-        $participant = $this.getUser();
+    public function modifierParticipant(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
+    {        
+        $user = new Participant();
+        $user = $this->getUser();
+        $estAdmin = 0;
 
-        $participantForm = $this->createForm(ParticipantType::class, $participant);
+        if($user->getAdministrateur()==1){
+            $estAdmin = 1;
+        }
 
-        $participantForm->handleRequest($request);
-        if($participantForm->isSubmitted() && $participantForm->isValid()){
-            $em->persist($participant);
+        $userForm = $this->createForm(RegisterType::class, $user);
+
+        $userForm->handleRequest($request);
+        if($userForm->isSubmitted() && $userForm->isValid()){
+            $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
+            $user->setMotDePasse($mdpHashe);
+            $user->setActif(1);
+            if($estAdmin==1){
+                $user->setAdministrateur(1);
+            }else{
+                $user->setAdministrateur(0);
+            }
+            $em->persist($user);
             $em->flush();
             $this->addFlash("success", "Votre profil a bien été modifié.");
-            return $this->redirectToRoute("index");
+            return $this->redirectToRoute("/");
         }
 
         return $this->render('user/modifier.html.twig', [
-            'participant' => $participant,
-            "participantForm" => $participantForm->createView(),
+            'user' => $user,
+            "userForm" => $userForm->createView(),
         ]);
     }
 
