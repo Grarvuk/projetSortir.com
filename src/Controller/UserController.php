@@ -20,6 +20,12 @@ class UserController extends AbstractController
     public function register(EntityManagerInterface $em,Request $request,
         UserPasswordEncoderInterface $encoder)
     {
+        if(!$this->anonymousOnly())
+        {
+            $this->addFlash("warning", "Vous êtes déjà inscris et connecté.");
+            return $this->redirectToRoute("/");
+        }
+        
         $user = new Participant();
         $userForm = $this->createForm(RegisterType::class, $user);
 
@@ -50,6 +56,13 @@ class UserController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
+
+        if(!$this->anonymousOnly())
+        {
+            $this->addFlash("warning", "Vous êtes déjà connecté.");
+            return $this->redirectToRoute("/");
+        }
+            
         $error = $authenticationUtils->getLastAuthenticationError();
         return $this->render('user/login.html.twig', [
             'error' => $error,
@@ -112,4 +125,17 @@ class UserController extends AbstractController
             'error' => $error,
         ]);
     }
+    
+    public function anonymousOnly()
+    {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')||
+        $this->get('security.authorization_checker')->isGranted('ROLE_USER'))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    } 
 }
