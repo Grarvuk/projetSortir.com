@@ -55,4 +55,10 @@ class Campus
     {
         $this->participants = $pParticipants;
     }
+
+
+    public function __toString(): string
+    {
+        return $this->getNomCampus();
+    }
 }
