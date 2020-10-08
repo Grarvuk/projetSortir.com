@@ -57,7 +57,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/modifierprofil", name="modifierprofil")
+     * @Route("/user/modifierprofil", name="modifierprofil")
      */
     public function modifierParticipant(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
     {        
