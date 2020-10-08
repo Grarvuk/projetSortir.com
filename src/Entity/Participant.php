@@ -102,7 +102,7 @@ class Participant implements UserInterface
         return $this->mail;
     }
 
-    //obligatoire
+    //obligatoire//
     public function getPassword(): ?String
     {
         return $this->mot_de_passe;
