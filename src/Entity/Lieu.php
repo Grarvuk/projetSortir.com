@@ -98,4 +98,9 @@ class Lieu
     {
         $this->ville = $ville;
     }
+
+    public function __toString(): string
+    {
+        return $this->getNomLieu();
+    }
 }
