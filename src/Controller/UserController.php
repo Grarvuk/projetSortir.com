@@ -57,16 +57,16 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/modifierprofil", name="modifierprofil")
+     * @Route("/user/updateuser", name="user_update")
      */
-    public function modifierParticipant(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
+    public function editprofile(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
     {        
         $user = new Participant();
         $user = $this->getUser();
-        $estAdmin = 0;
+        $isAdmin = 0;
 
         if($user->getAdministrateur()==1){
-            $estAdmin = 1;
+            $isAdmin = 1;
         }
 
         $userForm = $this->createForm(RegisterType::class, $user);
@@ -76,7 +76,7 @@ class UserController extends AbstractController
             $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
             $user->setMotDePasse($mdpHashe);
             $user->setActif(1);
-            if($estAdmin==1){
+            if($isAdmin==1){
                 $user->setAdministrateur(1);
             }else{
                 $user->setAdministrateur(0);
