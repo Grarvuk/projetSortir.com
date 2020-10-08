@@ -59,7 +59,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/updateuser", name="user_update")
      */
-    public function editprofile(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
+    public function updateuser(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
     {        
         $user = new Participant();
         $user = $this->getUser();
@@ -99,5 +99,17 @@ class UserController extends AbstractController
     public function logout()
     {
         //Il n'y a rien à faire
+    }
+
+    /**
+     * @Route("/user/profile", name="profile")
+     */
+    public function profile()
+    {
+        
+    
+        return $this->render('user/login.html.twig', [
+            'error' => $error,
+        ]);
     }
 }
