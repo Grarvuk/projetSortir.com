@@ -20,6 +20,7 @@ class UserController extends AbstractController
     public function register(EntityManagerInterface $em,Request $request,
         UserPasswordEncoderInterface $encoder)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
         $user = new Participant();
         $userForm = $this->createForm(RegisterType::class, $user);
 
@@ -50,6 +51,17 @@ class UserController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')||
+        $this->get('security.authorization_checker')->isGranted('ROLE_USER'))
+        {
+            $this->addFlash("warning", "Vous êtes déjà connecté.");
+            return $this->redirectToRoute("/");
+        }
+        else
+        {
+            
+        }
+            
         $error = $authenticationUtils->getLastAuthenticationError();
         return $this->render('user/login.html.twig', [
             'error' => $error,
