@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/register", name="user_register")
+     * @Route("/admin/register", name="user_register")
      */
     public function register(EntityManagerInterface $em,Request $request,
         UserPasswordEncoderInterface $encoder)
@@ -36,7 +36,6 @@ class UserController extends AbstractController
             $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
             $user->setMotDePasse($mdpHashe);
             $user->setActif(1);
-            $user->setAdministrateur(0);
 
             $em->persist($user);
             $em->flush();
