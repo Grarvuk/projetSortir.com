@@ -40,3 +40,7 @@ security:
         - { path: ^/villes, roles: ROLE_USER }
         - { path: ^/lieux, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        ROLE_EDITOR: ROLE_USER
+        ROLE_ADMIN: ROLE_EDITOR

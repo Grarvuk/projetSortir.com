@@ -28,11 +28,13 @@
                         <li class="nav-item"><a class="nav-link" href="{{ path('lieux') }}">Liste des lieux</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('villes') }}">Liste des villes</a></li>
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Panneau admin</a></li>
+                            {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{{ path('user_update') }}">Mon profil</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ path('logout') }}">Logout</a></li>
                         {% else %}
                             <li class="nav-item"><a class="nav-link" href="{{ path('login') }}">Login</a></li>
-                            {# <li class="nav-item"><a class="nav-link" href="{{ path('user_register') }}">Register</a></li> A METTRE DANS LE PANNEAU ADMIN #}
                         {% endif %}
                     </ul>
                 </nav>

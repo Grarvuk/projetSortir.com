@@ -10,8 +10,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class RegisterType extends AbstractType
+class AdminRegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -49,6 +50,20 @@ class RegisterType extends AbstractType
                 'second_options' => ['label' => 'Réécrire le mot de passe', 'attr' => ['class' => $lesClass]],
             ], [
                 "label" => "Mot de passe"
+            ])
+            ->add("administrateur", ChoiceType::class, [
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false
+                ],
+                 'label' => 'Administrateur ?'
+            ])
+            ->add("actif", ChoiceType::class, [
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false
+                ],
+                 'label' => 'Actif ?'
             ])
             ->add('submit', SubmitType::class, ['label'=>'Confirmer', 'attr'=>['class'=>$lesClass."btn-success"]])
         ;

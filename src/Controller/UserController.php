@@ -15,42 +15,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/admin/register", name="user_register")
-     */
-    public function register(EntityManagerInterface $em,Request $request,
-        UserPasswordEncoderInterface $encoder)
-    {
-        if(!$this->anonymousOnly())
-        {
-            $this->addFlash("warning", "Vous êtes déjà inscris et connecté.");
-            return $this->redirectToRoute("/");
-        }
-        
-        $user = new Participant();
-        $userForm = $this->createForm(RegisterType::class, $user);
-
-        $userForm->handleRequest($request);
-
-        if($userForm->isSubmitted() && $userForm->isValid())
-        {
-            $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
-            $user->setMotDePasse($mdpHashe);
-            $user->setActif(1);
-
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash("success", "Inscirption réussie");
-
-            return $this->redirectToRoute("main");
-        }
-
-        return $this->render('user/register.html.twig', [
-            'userForm' => $userForm->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/login", name="login")
      */
     public function login(AuthenticationUtils $authenticationUtils)
