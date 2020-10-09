@@ -14,7 +14,7 @@ class LieuController extends AbstractController
     /**
      * @Route("/lieux/insertlieu", name="lieu_insert")
      */
-    public function insertlieu(EntityManagerInterface $em, Request $request)
+    public function insertLieu(EntityManagerInterface $em, Request $request)
     {
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);

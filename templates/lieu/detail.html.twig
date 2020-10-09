@@ -7,10 +7,11 @@
 {% block body %}
     Détails du lieu {{ lieu.getNomLieu() }} <br>
     <div>
-        <p>{{ lieu.rue }}</p>
-        <p>{{ lieu.latitude }}</p>
-        <p>{{ lieu.longitude }}</p>
-        <p>{{ lieu.ville }}</p>
+        <p>Nom du lieu : {{ lieu.getNomLieu() }}</p>
+        <p>Rue : {{ lieu.rue }}</p>
+        <p>Latitude : {{ lieu.latitude }}</p>
+        <p>Longitude : {{ lieu.longitude }}</p>
+        <p>Ville : {{ lieu.ville }}</p>
         <div>
             <a href="{{ path('lieu_update', {'id' : lieu.id}) }}">Modifier le lieu</a>
             <a href="{{ path('lieu_delete', {'id' : lieu.id}) }}">Supprimer le lieu</a>

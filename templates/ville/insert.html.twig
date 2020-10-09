@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Créer une ville {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
+
+{% block body %}
+    Créer une ville <br>
+    <div>
+        {{ form_start(villeForm) }}
+            {{ form_row(villeForm.nom_ville) }}
+            {{ form_row(villeForm.code_postale) }}
+            {{ form_row(villeForm.submit) }}
+        {{ form_end(villeForm) }}
+    </div>
+{% endblock %}
