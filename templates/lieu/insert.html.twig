@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Créer un lieu {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
+
+{% block body %}
+    Créer un lieu <br>
+    <div>
+        {{ form_start(lieuForm) }}
+            {{ form_row(lieuForm.nom_lieu) }}
+            {{ form_row(lieuForm.rue) }}
+            {{ form_row(lieuForm.latitude) }}
+            {{ form_row(lieuForm.longitude) }}
+            {{ form_row(lieuForm.ville) }}
+            <a href="{{ path('ville_insert') }}">Ajouter une ville</a>
+            {{ form_row(lieuForm.submit) }}
+        {{ form_end(lieuForm) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Détails du lieu {{ lieu.getNomLieu() }} {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
+
+{% block body %}
+    Détails du lieu {{ lieu.getNomLieu() }} <br>
+    <div>
+        <p>{{ lieu.rue }}</p>
+        <p>{{ lieu.latitude }}</p>
+        <p>{{ lieu.longitude }}</p>
+        <p>{{ lieu.ville }}</p>
+        <div>
+            <a href="{{ path('lieu_update', {'id' : lieu.id}) }}">Modifier le lieu</a>
+            <a href="{{ path('lieu_delete', {'id' : lieu.id}) }}">Supprimer le lieu</a>
+        </div>
+    </div>
+{% endblock %}

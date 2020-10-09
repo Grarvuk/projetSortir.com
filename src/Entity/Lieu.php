@@ -76,7 +76,7 @@ class Lieu
 
     public function setNomLieu($nom_lieu)
     {
-        $this->nom_lieu;
+        $this->nom_lieu = $nom_lieu;
     }
 
     public function setRue($rue)
