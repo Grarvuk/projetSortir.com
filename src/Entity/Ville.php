@@ -56,4 +56,9 @@ class Ville
     {
         $this->code_postale= $pCode_postale;
     }
+
+    public function __toString(): string
+    {
+        return $this->getNomVille();
+    }
 }

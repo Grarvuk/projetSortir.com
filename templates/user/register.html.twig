@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
 
-{% block title%} S'inscrire {% endblock %}
+{% block title%} Inscrire un participant {% endblock %}
 
-{% block cssBonus%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
 
 {% block body %}
-    S'inscrire <br>
+    Inscrire un participant <br>
     <div>
         
         {{ form_start(userForm) }}

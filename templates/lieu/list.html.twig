@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Liste des lieux {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
+
+{% block body %}
+    Liste des lieux <br>
+    <div>
+        {% for lieu in lieux %}
+        <div class="lieu">
+            <a href="{{ path('lieu_detail', {'id' : lieu.id}) }}">{{ lieu.getNomLieu() }}</a>
+        </div>
+    {% endfor%}
+    <a href="{{ path('lieu_insert') }}">Ajouter un lieu</a>
+    </div>
+{% endblock %}

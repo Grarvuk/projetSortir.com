@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Liste des participants {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
+
+{% block body %}
+    Liste des participants <br>
+    <div>
+        {% for user in users %}
+        <div class="user">
+            <a href="{{ path('profile', {'id' : user.id}) }}">{{ user.pseudo }}</a>
+        </div>
+    {% endfor%}
+    <a href="{{ path('user_register') }}">Ajouter un participant</a>
+    </div>
+{% endblock %}

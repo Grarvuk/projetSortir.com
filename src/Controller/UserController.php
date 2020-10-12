@@ -15,43 +15,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/register", name="user_register")
-     */
-    public function register(EntityManagerInterface $em,Request $request,
-        UserPasswordEncoderInterface $encoder)
-    {
-        if(!$this->anonymousOnly())
-        {
-            $this->addFlash("warning", "Vous êtes déjà inscris et connecté.");
-            return $this->redirectToRoute("/");
-        }
-        
-        $user = new Participant();
-        $userForm = $this->createForm(RegisterType::class, $user);
-
-        $userForm->handleRequest($request);
-
-        if($userForm->isSubmitted() && $userForm->isValid())
-        {
-            $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
-            $user->setMotDePasse($mdpHashe);
-            $user->setActif(1);
-            $user->setAdministrateur(0);
-
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash("success", "Inscirption réussie");
-
-            return $this->redirectToRoute("main");
-        }
-
-        return $this->render('user/register.html.twig', [
-            'userForm' => $userForm->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/login", name="login")
      */
     public function login(AuthenticationUtils $authenticationUtils)
@@ -72,7 +35,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/updateuser", name="user_update")
      */
-    public function editprofile(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
+    public function updateuser(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $encoder)
     {        
         $user = new Participant();
         $user = $this->getUser();
@@ -112,6 +75,21 @@ class UserController extends AbstractController
     public function logout()
     {
         //Il n'y a rien à faire
+    }
+
+    /**
+     * @Route("/user/profile/{id}", name="profile", requirements={"id":"\d+"})
+     */
+    public function profile($id)
+    {
+        $userRepo = $this->getDoctrine()->getRepository(Participant::class);
+        $user = $userRepo->find($id);
+
+        if(empty($user)){
+            throw $this->createNotFoundException("This user do not exists !");
+        }
+
+        return $this->render('user/user.html.twig', compact("user"));
     }
 
     public function anonymousOnly()
