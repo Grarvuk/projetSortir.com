@@ -189,6 +189,10 @@ class Participant implements UserInterface
         $this->campus = $pCampus;
     }
 
+    public function __toString() {
+        return $this->nom." ".$this->prenom;
+    }
+
     ///////////Ne sert à rien mais doit être implentées////////////////
 
     public function eraseCredentials(){}

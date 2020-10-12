@@ -1,0 +1,144 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Détail sortie {{sortie.nom}} {% endblock %}
+
+{% block cssBonus%} <link rel="stylesheet" href="{{ asset("css/detail.css") }}">{% endblock %}
+{% block javascript%} 
+    <script src="{{ asset("js/detail.js") }}"></script>
+{% endblock %}
+{% block body %}
+    Détail de la sortie <br>
+    <div>
+
+        {%  if(isOrganisateur==0) %}
+
+
+            <table id="myTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Champs</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nom de la sortie</td>
+                    <td>{{sortie.nom}}</td>
+                </tr>
+                <tr>
+                    <td>Date de début</td>
+                    <td>{{sortie.datedebut|date("m/d/Y")}}</td>
+                </tr>
+                <tr>
+                    <td>Date de fin</td>
+                    <td>{{sortie.datecloture|date("m/d/Y")}}</td>
+                </tr>
+                <tr>
+                    {# Étrangement impossible d'obtenir la propriété juste en tapant son nom
+                    D'où l'appel au getter #}
+                    <td>Nombre d'inscription maximum</td>
+                    <td>{{sortie.getNbinscriptionsmax()}}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{sortie.descriptioninfos}}</td>
+                </tr>
+                <tr>
+                    <td>Etat de la sortie</td>
+                    <td>{{sortie.etat.libelle}}</td>
+                </tr>
+                <tr>
+                    <td>Campus concerné</td>
+                    <td>{{sortie.campus.nomCampus}}</td>
+                </tr>
+                <tr>
+                    <td>Organisateur</td>
+                    <td>{{sortie.organisateur.nom}} {{sortie.organisateur.prenom}}</td>
+                </tr>
+                <tr>
+                    <td>Lieu de la sortie</td>
+                    <td>{{sortie.lieu.nomLieu}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Champs</th>
+                    <th>Valeur</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        {% else %}
+        
+        {{ form_start(sortieForm) }}
+
+            <table id="myTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Champs</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ form_label(sortieForm.nom) }}</td>
+                    <td>{{ form_widget(sortieForm.nom) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.datedebut) }}</td>
+                    <td>{{ form_widget(sortieForm.datedebut) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.duree) }}</td>
+                    <td>{{ form_widget(sortieForm.duree) }}</td>
+                </tr>
+                <tr>
+                    {# Étrangement impossible d'obtenir la propriété juste en tapant son nom
+                    D'où l'appel au getter #}
+                    <td>{{ form_label(sortieForm.datecloture) }}</td>
+                    <td>{{ form_widget(sortieForm.datecloture) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.nbinscriptionsmax) }}</td>
+                    <td>{{ form_widget(sortieForm.nbinscriptionsmax) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.descriptioninfos) }}</td>
+                    <td>{{ form_widget(sortieForm.descriptioninfos) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.campus) }}</td>
+                    <td>{{ form_widget(sortieForm.campus) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.etat) }}</td>
+                    <td>{{ form_widget(sortieForm.etat) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.lieu) }}</td>
+                    <td>{{ form_widget(sortieForm.lieu) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(sortieForm.organisateur) }}</td>
+                    <td>{{ form_widget(sortieForm.organisateur) }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Champs</th>
+                    <th>Valeur</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        {{ form_row(sortieForm.submit) }}
+
+        {{ form_end(sortieForm) }}
+        
+        {% endif %}
+        
+    </div>
+
+
+
+{% endblock %}
