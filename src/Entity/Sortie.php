@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Campus;
+use App\Entity\Participant;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -53,7 +54,7 @@ class Sortie
     */
     private $urlPhoto;
     /**
-    * @ORM\Column(type="integer")
+    * @ORM\ManyToOne(targetEntity="App\Entity\Participant")
     */
     private $organisateur ;
     /**

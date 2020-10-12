@@ -19,6 +19,7 @@
             {{ form_row(sortieForm.lieu) }}
             <a href="/sorties/insertlieu">Ajouter un lieu</a>
             {{ form_row(sortieForm.submit) }}
-        {{ form_end(sortieForm) }}
+            {{ form_widget(sortieForm._token) }} {# render the CSRF Token #}
+        {{ form_end(sortieForm, {'render_rest': false}) }}
     </div>
 {% endblock %}

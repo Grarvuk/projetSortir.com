@@ -62,6 +62,12 @@ class SortieType extends AbstractType
                 "label" => "Lieu"
                 , 'attr' => ['class' => $lesClass]
             ])
+            ->add('organisateur', null, [
+                "label" => "Organisateur"
+                , 'attr' => ['class' => $lesClass
+                ,'required' => false
+                ]
+            ])
             ->add('submit', SubmitType::class, ['label'=>'Confirmer', 'attr'=>['class'=>$lesClass."btn-success"]])
         ;
     }
