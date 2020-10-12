@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Se connecter {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/login.css") }}">{% endblock %}
+
+{% block body %}
+    Se connecter <br>
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger"> Les informations fournies sont incorrectes </div>
+        {% endif %}
+        <label for="username">Login</label>
+        <input name="_username" id="username" class="inputLogin form-control">
+
+        <label for="password">Mot de passe</label>
+        <input type="password" name="_password" id="password" class="inputLogin form-control">
+        
+        <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+        <label for="remember_me">Se souvenir de moi</label>
+        
+        <button type="submit" class="inputLogin form-control btn-success">Login</button>
+    </form>
+{% endblock %}
