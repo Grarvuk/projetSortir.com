@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Détails de la ville {{ ville.getNomVille() }} {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
+
+{% block body %}
+    Détails de la ville {{ ville.getNomVille() }} <br>
+    <div>
+        <p>Nom de la ville : {{ ville.getNomVille() }}</p>
+        <p>Code postal : {{ ville.getCodePostale() }}</p>
+        <div>
+            <a href="{{ path('ville_update', {'id' : ville.id}) }}">Modifier la ville</a>
+            <a href="{{ path('ville_delete', {'id' : ville.id}) }}">Supprimer la ville</a>
+        </div>
+    </div>
+{% endblock %}

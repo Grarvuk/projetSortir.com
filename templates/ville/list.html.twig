@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Liste des villes {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
+
+{% block body %}
+    Liste des villes <br>
+    <div>
+        {% for ville in villes %}
+        <div class="ville">
+            <a href="{{ path('ville_detail', {'id' : ville.id}) }}">{{ ville.getNomVille() }}</a>
+        </div>
+    {% endfor%}
+    <a href="{{ path('ville_insert') }}">Ajouter une ville</a>
+    </div>
+{% endblock %}
