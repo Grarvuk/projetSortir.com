@@ -6,12 +6,27 @@
 
 {% block body %}
     Liste des participants <br>
+
+    <table id="myTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Champs</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>Nom de l'utilisateur</td>
+                        <td><a href="{{ path('profile', {'id' : user.id}) }}">{{ user.pseudo }}</a></td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+
     <div>
-        {% for user in users %}
-        <div class="user">
-            <a href="{{ path('profile', {'id' : user.id}) }}">{{ user.pseudo }}</a>
-        </div>
-    {% endfor%}
     <a href="{{ path('user_register') }}">Ajouter un participant</a>
     </div>
 {% endblock %}

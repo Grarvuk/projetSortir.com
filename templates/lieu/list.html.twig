@@ -4,14 +4,33 @@
 
 {% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
 
+{% block javascript%} 
+    <script src="{{ asset("js/detail.js") }}"></script>
+{% endblock %}
+
 {% block body %}
     Liste des lieux <br>
+
+    <table id="myTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Champs</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lieu in lieux %}
+                    <tr>
+                        <td>Nom du lieu</td>
+                        <td><a href="{{ path('lieu_detail', {'id' : lieu.id}) }}">{{ lieu.getNomLieu() }}</a></td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+
     <div>
-        {% for lieu in lieux %}
-        <div class="lieu">
-            <a href="{{ path('lieu_detail', {'id' : lieu.id}) }}">{{ lieu.getNomLieu() }}</a>
-        </div>
-    {% endfor%}
     <a href="{{ path('lieu_insert') }}">Ajouter un lieu</a>
     </div>
 {% endblock %}
