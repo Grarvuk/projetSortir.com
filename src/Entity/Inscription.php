@@ -53,4 +53,14 @@ class Inscription
     {
         $this->date_inscription = $date_inscription;
     }
+
+    public function setSortie($sortie)
+    {
+        $this->sortie = $sortie;
+    }
+
+    public function setParticipant($participant)
+    {
+        $this->participant = $participant;
+    }
 }

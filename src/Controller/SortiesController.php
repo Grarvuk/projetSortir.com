@@ -5,10 +5,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Form\SortieType;
 use App\Form\SortieAnnuleType;
 use App\Entity\Sortie;
+use App\Entity\Inscription;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class SortiesController extends AbstractController
 {
@@ -48,15 +51,47 @@ class SortiesController extends AbstractController
     }
 
     /**
+    * @Route("/sorties/insertinscription", name="sortie_inscription")
+    */
+    public function insertInscription(EntityManagerInterface $em, Request $request)
+    {
+        $inscription = new Inscription();
+
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortieChoosen = $repoSortie->find($_POST["idSortie"]);
+
+        $inscription->setSortie($sortieChoosen);
+        $inscription->setParticipant($this->getUser());
+        $date = new \DateTime();
+        $inscription->setDateInscription($date);
+        $em->persist($inscription);
+        $em->flush();
+
+        $this->addFlash("success", "inscription réussie");
+
+        $response = new Response(
+            'Content',
+            Response::HTTP_OK,
+            array('content-type' => 'text/html')
+        );
+
+        return $response;
+    }
+
+    /**
     * @Route("/sorties/detailsortie/{id}", name="sortie_detail", requirements={"id": "\d+"})
     */
     public function detailSortie($id, EntityManagerInterface $em, Request $request)
     {
-        $repo = $this->getDoctrine()->getRepository(Sortie::class);
+        // 
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
+
+        $resultat = $repoInscription->estInscris($this->getUser()->getId(), $id);
+        $isRegister = $resultat[0]["nbInscri"];
 
         $sortie = new Sortie();
-        $sortie = $repo->find($id);
-
+        $sortie = $repoSortie->find($id);
         $user = $this->getUser();
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
@@ -68,7 +103,6 @@ class SortiesController extends AbstractController
             $em->persist($sortie);
             $em->flush();
 
-            $this->addFlash("success", "Sortie modifiée");
             // return $this->redirectToRoute("/");
         }
 
@@ -84,6 +118,7 @@ class SortiesController extends AbstractController
         return $this->render('sorties/detailSortie.html.twig', [
             'sortie' => $sortie,
             'isOrganisateur' => $isOrganisateur,
+            'isRegister' => $isRegister,
             'sortieForm' => $sortieForm->createView(),
             'user' => $user,
         ]);
@@ -112,4 +147,6 @@ class SortiesController extends AbstractController
             'sortieForm' => $sortieForm->createView(),
         ]);
     }
+
+
 }

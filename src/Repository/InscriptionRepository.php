@@ -19,6 +19,24 @@ class InscriptionRepository extends ServiceEntityRepository
         parent::__construct($registry, Inscription::class);
     }
 
+    /**
+    * @return Sortie[] Returns an array of Sortie objects
+    */
+    
+    public function estInscris($idParticipant, $idSortie)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.participant = :participant')
+            ->setParameter('participant', $idParticipant)
+            ->andWhere('s.sortie = :sortie')
+            ->setParameter('sortie', $idSortie)
+            ->select('COUNT(s.id) as nbInscri')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Inscription[] Returns an array of Inscription objects
     //  */
