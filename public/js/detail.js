@@ -2,7 +2,7 @@ $( document ).ready(function() {
     var premierClick = true;
     var estInscris;
     var txtDOrigine = "";
-    console.log(adresseBase+"sorties/insertinscription");
+    // console.log(adresseBase+"sorties/insertinscription");
 
     //Partie mousseout de la sourie
     //Partie mousseout de la sourie
@@ -11,12 +11,12 @@ $( document ).ready(function() {
     $(".svgInscri").on("mouseout", function() {
         if($(this).hasClass("svgNonInscri"))
         {
-            console.log("svgInscri sortant");
+            // console.log("svgInscri sortant");
             $("#txtBtnRegister").text(" S'inscrire");
         }
         else
         {
-            console.log("svgNonInscri sortant");
+            // console.log("svgNonInscri sortant");
             $("#txtBtnRegister").text(" Vous êtes inscrit");
         }
     });
@@ -24,12 +24,12 @@ $( document ).ready(function() {
     $(".svgNonInscri").on("mouseout", function() {
         if($(this).hasClass("svgNonInscri"))
         {
-            console.log("svgInscri sortant")
+            // console.log("svgInscri sortant")
             $("#txtBtnRegister").text(" S'inscrire");
         }
         else
         {
-            console.log("svgNonInscri sortant")
+            // console.log("svgNonInscri sortant")
             $("#txtBtnRegister").text(" Vous êtes inscrit");
         }
     });
@@ -41,12 +41,12 @@ $( document ).ready(function() {
     $(".svgInscri").on("mouseover", function() {
         if($(this).hasClass("svgNonInscri"))
         {
-            console.log("svgInscri entrant");
+            // console.log("svgInscri entrant");
             $("#txtBtnRegister").text(" Voulez vous inscrire ?");
         }
         else
         {
-            console.log("svgNonInscri entrant");
+            // console.log("svgNonInscri entrant");
             $("#txtBtnRegister").text(" Se desinscrire ?");
         }
     });
@@ -54,12 +54,12 @@ $( document ).ready(function() {
     $(".svgNonInscri").on("mouseover", function() {
         if($(this).hasClass("svgNonInscri"))
         {
-            console.log("svgInscri entrant")
+            // console.log("svgInscri entrant")
             $("#txtBtnRegister").text(" Voulez vous inscrire ?");
         }
         else
         {
-            console.log("svgNonInscri entrant")
+            // console.log("svgNonInscri entrant")
             $("#txtBtnRegister").text(" Se desinscrire ?");
         }
     });
@@ -71,13 +71,13 @@ $( document ).ready(function() {
     $( ".svgNonInscri" ).on( "click", function() {
         if(estInscris==false && !premierClick)
         {
-            console.log("svgNonInscri");
+            // console.log("svgNonInscri");
             inscription($(this).attr("value"));
             estInscris=true;
         }
         else if(estInscris==true && !premierClick)
         {
-            console.log("svgInscri");
+            // console.log("svgInscri");
             desinscription($(this).attr("value"));
             estInscris=false;
         }
@@ -93,13 +93,13 @@ $( document ).ready(function() {
 
         if(estInscris==false && !premierClick)
         {
-            console.log("svgNonInscri");
+            // console.log("svgNonInscri");
             inscription($(this).attr("value"));
             estInscris=true;
         }
         else if(estInscris==true && !premierClick)
         {
-            console.log("svgInscri");
+            // console.log("svgInscri");
             desinscription($(this).attr("value"));
             estInscris=false;
         }
