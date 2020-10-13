@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\IdeaType;
 use App\Form\AdminRegisterType;
 use App\Form\AdminUpdateType;
+use App\Form\CampusType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -162,5 +163,95 @@ class AdminController extends AbstractController
 
         
         return $this->redirectToRoute("users");
+    }
+
+    /**
+     * @Route("/admin/campus", name="campus")
+     */
+    public function campus()
+    {
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $campus = $campusRepo->findAll();
+
+        return $this->render('campus/list.html.twig', compact("campus"));
+    }
+
+    /**
+     * @Route("/admin/campus/insertcampus", name="campus_insert")
+     */
+    public function insertCampus(EntityManagerInterface $em, Request $request)
+    {
+        $campus = new Campus();
+        $campusForm = $this->createForm(CampusType::class, $campus);
+        
+        $campusForm->handleRequest($request);
+        if($campusForm->isSubmitted() && $campusForm->isValid()){
+            $em->persist($campus);
+            $em->flush();
+
+            $this->addFlash("success", "Campus enregistré");
+            return $this->redirectToRoute("campus");
+        }
+
+        return $this->render('campus/insert.html.twig', [
+            'campusForm' => $campusForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/campus/{id}", name="campus_detail", requirements={"id":"\d+"})
+     */
+    public function detailsCampus($id)
+    {
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $campus = $campusRepo->find($id);
+
+        if(empty($campus)){
+            throw $this->createNotFoundException("This campus do not exists !");
+        }
+
+        return $this->render('campus/detail.html.twig', compact("campus"));
+    }
+
+    /**
+     * @Route("/admin/campus/updatecampus/{id}", name="campus_update", requirements={"id":"\d+"})
+     */
+    public function updateCampus($id, EntityManagerInterface $em, Request $request)
+    {
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $campus = $campusRepo->find($id);
+        $campusForm = $this->createForm(CampusType::class, $campus);
+        
+        $campusForm->handleRequest($request);
+        if($campusForm->isSubmitted() && $campusForm->isValid()){
+            $em->persist($campus);
+            $em->flush();
+
+            $this->addFlash("success", "campus enregistré");
+            return $this->redirectToRoute("campus");
+        }
+
+        return $this->render('campus/insert.html.twig', [
+            'campusForm' => $campusForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/campus/deletecampus/{id}", name="campus_delete", requirements={"id":"\d+"})
+     */
+    public function deleteCampus($id, EntityManagerInterface $em)
+    {
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $campus = $campusRepo->find($id);
+
+        try{
+            $em->remove($campus);
+            $em->flush();
+            $this->addFlash('success', "the campus has been deleted");
+        }catch(\Exception $e){
+            $this->addFlash('warning', "Le campus n'a pas été supprimée, regardez si elle est présente dans une sortie. Si c'est le cas, il n'est pas possible de la supprimer.");
+        }
+
+        return $this->redirectToRoute('campus');
     }
 }

@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Liste des campus {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
+{% block javascript%} 
+    <script src="{{ asset("js/detail.js") }}"></script>
+{% endblock %}
+{% block body %}
+    Liste des campus <br>
+
+    <table id="myTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Champs</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campu in campus %}
+                    <tr>
+                        <td>Nom du campus</td>
+                        <td><a href="{{ path('campus_detail', {'id' : campu.id}) }}">{{ campu.getNomCampus() }}</a></td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+
+    <div>
+        
+    <a href="{{ path('campus_insert') }}">Ajouter un campus</a>
+    </div>
+{% endblock %}
