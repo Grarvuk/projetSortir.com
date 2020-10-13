@@ -16,8 +16,8 @@ class MainController extends AbstractController
     public function index(EntityManagerInterface $em)
     {
         $repoSortie = $em->getRepository(Sortie::class);
-        $Sorties = $repoSortie->findBy(["etatsortie" => true]);
-
-        return $this->render("Sorties/list.html.twig", ["Sorties" => $Sorties]);
+        $Sorties = $repoSortie->findBy(["etatsortie" => 1]);
+                
+        return $this->render("Sorties/listSorties.html.twig", ["Sorties" => $Sorties]);
     }
 }

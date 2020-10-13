@@ -1,0 +1,34 @@
+{% extends '/main/layout.html.twig' %}
+
+{% block main %}
+    
+    <h1>Latest Sorties</h1>
+    <table>
+        <tr>
+            <th> Lieu </th>
+            <th> Etat </th>
+            <th> Campus </th>
+            <th> Nom </th>
+            <th> Date début </th>
+            <th> Date cloture </th>
+            <th> Duree </th>
+            <th> Nombre max d'inscription </th>
+         </tr>
+        {% for row in Sorties %}
+                <tr> 
+                <td>   {{ row.lieu.nomlieu }}   </td>
+                <td>   {{ row.etat.id }}   </td>
+                <td>   {{ row.nom }}   </td>
+                <td>   {{ row.datedebut|date('Y-m-d') }}   </td>
+                <td>   {{ row.datecloture|date('Y-m-d') }}   </td>
+                <td>   {{ row.duree|date('Y-m-d') }}   </td>
+                <td>   {{ row.nbinscriptionsmax }}   </td>
+                </tr>            
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block title %}Latest Sorties |
+    {{ parent() }}
+{% endblock %}
