@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\IdeaType;
 use App\Form\AdminRegisterType;
+use App\Form\AdminUpdateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,15 +71,12 @@ class AdminController extends AbstractController
     {  
         $usersRepo = $this->getDoctrine()->getRepository(Participant::class);
         $user = $usersRepo->find($id);
-        $userForm = $this->createForm(AdminRegisterType::class, $user);
+        $userForm = $this->createForm(AdminUpdateType::class, $user);
 
         $userForm->handleRequest($request);
 
         if($userForm->isSubmitted() && $userForm->isValid())
         {
-            $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
-            $user->setMotDePasse($mdpHashe);
-
             $em->persist($user);
             $em->flush();
 

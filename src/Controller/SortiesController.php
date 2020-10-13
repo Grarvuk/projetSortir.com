@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\SortieType;
+use App\Form\SortieAnnuleType;
 use App\Entity\Sortie;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -56,7 +57,7 @@ class SortiesController extends AbstractController
         $sortie = new Sortie();
         $sortie = $repo->find($id);
 
-        dump($sortie);
+        $user = $this->getUser();
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
@@ -71,7 +72,7 @@ class SortiesController extends AbstractController
             // return $this->redirectToRoute("/");
         }
 
-        if($this->getUser()->getId()==$sortie->getOrganisateur()->getId())
+        if($user->getId()==$sortie->getOrganisateur()->getId())
         {
             $isOrganisateur = 1;
         }
@@ -83,6 +84,31 @@ class SortiesController extends AbstractController
         return $this->render('sorties/detailSortie.html.twig', [
             'sortie' => $sortie,
             'isOrganisateur' => $isOrganisateur,
+            'sortieForm' => $sortieForm->createView(),
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("/sorties/annulesortie/{id}", name="sortie_annule", requirements={"id": "\d+"})
+     */
+    public function annuleSortie($id, EntityManagerInterface $em, Request $request)
+    {
+        $repo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $repo->find($id);
+        $sortieForm = $this->createForm(SortieAnnuleType::class, $sortie);
+
+        $sortieForm->handleRequest($request);
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+            $sortie->setEtatSortie(5);
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash("success", "Sortie annulée");
+            return $this->redirectToRoute("sorties");
+        }
+
+        return $this->render('sorties/annule.html.twig', [
             'sortieForm' => $sortieForm->createView(),
         ]);
     }

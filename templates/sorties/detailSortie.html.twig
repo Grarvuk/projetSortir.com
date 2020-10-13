@@ -10,7 +10,7 @@
     Détail de la sortie <br>
     <div>
 
-        {%  if(isOrganisateur==0) %}
+        {%  if(isOrganisateur==0 and user.administrateur==0) %}
 
 
             <table id="myTable" class="display" style="width:100%">
@@ -24,6 +24,22 @@
                 <tr>
                     <td>Nom de la sortie</td>
                     <td>{{sortie.nom}}</td>
+                </tr>
+                <tr>
+                    <td>Etat de la sortie</td>
+                    <td>
+                        {% if sortie.etatSortie == 0 %}
+                                Créée
+                        {% elseif sortie.etatSortie == 1 %}
+                                En cours
+                        {% elseif sortie.etatSortie == 2 %}
+                                Terminée
+                        {% elseif sortie.etatSortie == 5 %}
+                                Annulée
+                        {% else %}
+                                Erreur lors de la récupération de l'état de la sortie
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Date de début</td>
@@ -85,6 +101,22 @@
                     <td>{{ form_widget(sortieForm.nom) }}</td>
                 </tr>
                 <tr>
+                    <td>Etat de la sortie</td>
+                    <td>
+                        {% if sortie.etatSortie == 0 %}
+                                Créée
+                        {% elseif sortie.etatSortie == 1 %}
+                                En cours
+                        {% elseif sortie.etatSortie == 2 %}
+                                Terminée
+                        {% elseif sortie.etatSortie == 5 %}
+                                Annulée
+                        {% else %}
+                                Erreur lors de la récupération de l'état de la sortie
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
                     <td>{{ form_label(sortieForm.datedebut) }}</td>
                     <td>{{ form_widget(sortieForm.datedebut) }}</td>
                 </tr>
@@ -130,6 +162,9 @@
                 </tr>
             </tfoot>
         </table>
+        <div>
+            <a href="{{ path('sortie_annule', {'id' : sortie.id}) }}">Annuler la sortie</a>
+        </div>
 
         {{ form_row(sortieForm.submit) }}
 
