@@ -22,7 +22,7 @@ $( document ).ready(function() {
                
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                console.log(xhr); //Ce code affichera le message d'erreur, ici Message d'erreur.
+                console.log(xhr); // Ce code affichera le message d'erreur, ici Message d'erreur.
                 console.log(ajaxOptions);
                 console.log(thrownError);
             }
