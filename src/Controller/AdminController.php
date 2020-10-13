@@ -10,8 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Participant;
+use App\Entity\Campus;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Finder\Finder;
 
 class AdminController extends AbstractController
 {
@@ -44,7 +46,7 @@ class AdminController extends AbstractController
 
             $this->addFlash("success", "Inscirption réussie");
 
-            return $this->redirectToRoute("main");
+            return $this->redirectToRoute("users");
         }
 
         return $this->render('user/register.html.twig', [
@@ -82,7 +84,7 @@ class AdminController extends AbstractController
 
             $this->addFlash("success", "Inscirption réussie");
 
-            return $this->redirectToRoute("main");
+            return $this->redirectToRoute("users");
         }
 
         return $this->render('user/register.html.twig', [
@@ -107,5 +109,58 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('users');
+    }
+
+    /**
+     * @Route("/admin/integrationuser", name="user_integration")
+     */
+    public function integrationUser(EntityManagerInterface $em,Request $request,
+        UserPasswordEncoderInterface $encoder)
+    {  
+        $finder = new Finder();
+        $finder->files()->in('csv')->name('*.csv');
+
+        if ($finder->hasResults()) {
+            foreach ($finder as $file) {
+                $handle = fopen($file->getRealPath(), "r");
+                $lineNumber = 1;
+
+                while (($raw_string = fgets($handle)) !== false) {
+                    $row = str_getcsv($raw_string);
+                    
+                    $user = new Participant();
+
+                    $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+                    $campus = $campusRepo->find($row[0]);
+
+                    $user->setCampus($campus);
+                    $user->setPseudo($row[1]);
+                    $user->setPrenom($row[2]);
+                    $user->setNom($row[3]);
+                    $user->setTelephone($row[4]);
+                    $user->setMail($row[5]);
+                    $user->setAdministrateur($row[7]);
+                    $user->setActif($row[8]);
+
+                    $mdpHashe = $encoder->encodePassword($user, $row[6]);
+                    $user->setMotDePasse($mdpHashe);
+
+                    $em->persist($user);
+                    $em->flush();
+
+                    $lineNumber++;
+                }
+
+                fclose($handle);
+                unlink($file->getRealPath());
+            }
+            $this->addFlash("success", "Intégration réussie");
+        }else{
+            $this->addFlash("warning", "Il n'y a pas de fichier csv dans public/csv/");
+        }
+        
+
+        
+        return $this->redirectToRoute("users");
     }
 }
