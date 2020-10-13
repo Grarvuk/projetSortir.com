@@ -79,6 +79,35 @@ class SortiesController extends AbstractController
     }
 
     /**
+    * @Route("/sorties/deleteinscription", name="sortie_desister")
+    */
+    public function deleteInscription(EntityManagerInterface $em, Request $request)
+    {
+        $inscription = new Inscription();
+
+        $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
+
+        $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
+
+        // $inscription->setSortie($sortieChoosen);
+        // $inscription->setParticipant($this->getUser());
+        // $date = new \DateTime();
+        // $inscription->setDateInscription($date);
+        // $em->persist($inscription);
+        // $em->flush();
+
+        // $this->addFlash("success", "inscription réussie");
+
+        $response = new Response(
+            'Content',
+            Response::HTTP_OK,
+            array('content-type' => 'text/html')
+        );
+
+        return $response;
+    }
+
+    /**
     * @Route("/sorties/detailsortie/{id}", name="sortie_detail", requirements={"id": "\d+"})
     */
     public function detailSortie($id, EntityManagerInterface $em, Request $request)
