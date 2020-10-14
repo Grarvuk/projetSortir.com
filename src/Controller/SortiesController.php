@@ -17,16 +17,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class SortiesController extends AbstractController
 {
     /**
-     * @Route("/sorties", name="sorties")
-     */
-    public function index()
-    {
-        return $this->render('sorties/index.html.twig', [
-            'controller_name' => 'SortiesController',
-        ]);
-    }
-
-    /**
      * @Route("/sorties/insertsortie", name="sortie_insert")
      */
     public function insertSortie(EntityManagerInterface $em, Request $request)
@@ -38,14 +28,18 @@ class SortiesController extends AbstractController
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
             $etat = $repoEtat->find(2);
-            $sortie->setEtatSortie($etat);
+            $sortie->setEtatSortie($etat, $em);
             $sortie->setUrlPhoto("url");
             $sortie->setOrganisateur($this->getUser());
-            $em->persist($sortie);
-            $em->flush();
-
-            $this->addFlash("success", "Sortie enregistrée");
-            return $this->redirectToRoute("/");
+            
+            try{
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash("success", "La sortie a été enregistrée.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "La sortie n'a pas été créée, une erreur est arrivée.");
+            }
+            return $this->redirectToRoute("sorties");
         }
 
         return $this->render('sorties/insert.html.twig', [
@@ -64,16 +58,25 @@ class SortiesController extends AbstractController
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $sortieChoosen = $repoSortie->find($_POST["idSortie"]);
 
+        if(empty($sortieChoosen)){
+            $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
+            return $this->redirectToRoute("sorties");
+        }
+
         $inscription->setSortie($sortieChoosen);
         $inscription->setParticipant($this->getUser());
         $date = new \DateTime();
         $inscription->setDateInscription($date);
-        $em->persist($inscription);
-        $em->flush();
-
-        $this->etatSortie($sortieChoosen, $em);
-
-        $this->addFlash("success", "inscription réussie");
+        
+        try{
+            $em->persist($inscription);
+            $em->flush();
+            $this->etatSortie($sortieChoosen, $em);
+            $this->addFlash("success", "L'inscription a réussie.");
+        }catch(\Exception $e){
+            $this->addFlash('warning', "L'inscription n'a pas été faite, une erreur est arrivée.");
+            return $this->redirectToRoute("sorties");
+        }
 
         $response = new Response(
             'Content',
@@ -93,11 +96,20 @@ class SortiesController extends AbstractController
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $sortieChoosen = $repoSortie->find($_POST["idSortie"]);
 
-        $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
+        if(empty($sortieChoosen)){
+            $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
+            return $this->redirectToRoute("sorties");
+        }
 
-        $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
-
-        $this->etatSortie($sortieChoosen, $em);
+        try{
+            $em->remove($sortieChoosen);
+            $em->flush();
+            $this->etatSortie($sortieChoosen);
+            $this->addFlash("success", "La désinscription a réussie.");
+        }catch(\Exception $e){
+            $this->addFlash('warning', "La désinscription n'a pas été faite, une erreur est arrivée.");
+            return $this->redirectToRoute("sorties");
+        }
 
         $response = new Response(
             'Content',
@@ -113,7 +125,6 @@ class SortiesController extends AbstractController
     */
     public function detailSortie($id, EntityManagerInterface $em, Request $request)
     {
-        // 
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
 
@@ -123,9 +134,13 @@ class SortiesController extends AbstractController
         $lesInscrits = $repoInscription->lesInscrits($id);
         dump(json_encode($lesInscrits));
 
-        $sortie = new Sortie();
         $sortie = $repoSortie->find($id);
         $user = $this->getUser();
+
+        if(empty($sortie)){
+            $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
+            return $this->redirectToRoute("sorties");
+        }
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
@@ -135,8 +150,15 @@ class SortiesController extends AbstractController
             $etat = $repoEtat->find(2);
             $sortie->setEtat($etat);
             $sortie->setUrlPhoto("url");
-            $em->persist($sortie);
-            $em->flush();
+            
+            try{
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash('warning', "La sortie a été modifiée.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "La sortie n'a pas été modifiée, une erreur est arrivée.");
+                return $this->redirectToRoute("sorties");
+            }
         }
 
         if($user->getId()==$sortie->getOrganisateur()->getId())
@@ -184,6 +206,12 @@ class SortiesController extends AbstractController
     {
         $repo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $repo->find($id);
+
+        if(empty($sortie)){
+            $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
+            return $this->redirectToRoute("sorties");
+        }
+
         $sortieForm = $this->createForm(SortieAnnuleType::class, $sortie);
 
         $sortieForm->handleRequest($request);
@@ -191,10 +219,14 @@ class SortiesController extends AbstractController
             $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
             $etat = $repoEtat->find(6);
             $sortie->setEtat($etat);
-            $em->persist($sortie);
-            $em->flush();
-
-            $this->addFlash("success", "Sortie annulée");
+            
+            try{
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash("success", "La sortie a été annulée.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "La sortie n'a pas été annulée, une erreur est arrivée.");
+            }
             return $this->redirectToRoute("sorties");
         }
 
@@ -237,5 +269,14 @@ class SortiesController extends AbstractController
             }
         }
     } 
+
+    /**
+     * @Route("/sorties", name="sorties")
+     */
+    public function sorties()
+    {
+        
+        return $this->render('base.html.twig');
+    }
 
 }

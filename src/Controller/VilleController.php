@@ -21,10 +21,13 @@ class VilleController extends AbstractController
         
         $villeForm->handleRequest($request);
         if($villeForm->isSubmitted() && $villeForm->isValid()){
-            $em->persist($ville);
-            $em->flush();
-
-            $this->addFlash("success", "ville enregistré");
+            try{
+                $em->persist($ville);
+                $em->flush();
+                $this->addFlash("success", "La ville a été créée.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "La ville n'a pas été créée, une erreur est arrivée.");
+            }
             return $this->redirectToRoute("villes");
         }
 
@@ -41,6 +44,11 @@ class VilleController extends AbstractController
         $villesRepo = $this->getDoctrine()->getRepository(Ville::class);
         $villes = $villesRepo->findAll();
 
+        if(empty($villes)){
+            $this->addFlash('warning', "Il n'y a aucune villes dans la base de données.");
+            return $this->redirectToRoute("ville_insert");
+        }
+
         return $this->render('ville/list.html.twig', compact("villes"));
     }
 
@@ -53,7 +61,8 @@ class VilleController extends AbstractController
         $ville = $villesRepo->find($id);
 
         if(empty($ville)){
-            throw $this->createNotFoundException("This ville do not exists !");
+            $this->addFlash('warning', "Cette ville n'existe pas dans la base de données.");
+            return $this->redirectToRoute("villes");
         }
 
         return $this->render('ville/detail.html.twig', compact("ville"));
@@ -66,14 +75,23 @@ class VilleController extends AbstractController
     {
         $villesRepo = $this->getDoctrine()->getRepository(Ville::class);
         $ville = $villesRepo->find($id);
+
+        if(empty($ville)){
+            $this->addFlash('warning', "Cette ville n'existe pas dans la base de données.");
+            return $this->redirectToRoute("villes");
+        }
+
         $villeForm = $this->createForm(VilleType::class, $ville);
         
         $villeForm->handleRequest($request);
         if($villeForm->isSubmitted() && $villeForm->isValid()){
-            $em->persist($ville);
-            $em->flush();
-
-            $this->addFlash("success", "ville enregistré");
+            try{
+                $em->persist($ville);
+                $em->flush();
+                $this->addFlash("success", "La ville a été enregistrée.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "La ville n'a pas été modifiée, une erreur est arrivée.");
+            }
             return $this->redirectToRoute("villes");
         }
 
@@ -90,12 +108,17 @@ class VilleController extends AbstractController
         $villesRepo = $this->getDoctrine()->getRepository(Ville::class);
         $ville = $villesRepo->find($id);
 
+        if(empty($ville)){
+            $this->addFlash('warning', "Cette ville n'existe pas dans la base de données.");
+            return $this->redirectToRoute("villes");
+        }
+
         try{
             $em->remove($ville);
             $em->flush();
-            $this->addFlash('success', "the ville has been deleted");
+            $this->addFlash('success', "La ville a été supprimée.");
         }catch(\Exception $e){
-            $this->addFlash('warning', "Le ville n'a pas été supprimée, regardez si elle est présente dans un lieu. Si c'est le cas, il n'est pas possible de la supprimer.");
+            $this->addFlash('warning', "La ville n'a pas été supprimée, regardez si elle est présente dans un lieu. Si c'est le cas, il n'est pas possible de la supprimer.");
         }
 
         return $this->redirectToRoute('villes');

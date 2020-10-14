@@ -23,7 +23,7 @@ class UserController extends AbstractController
         if(!$this->anonymousOnly())
         {
             $this->addFlash("warning", "Vous êtes déjà connecté.");
-            return $this->redirectToRoute("/");
+            return $this->redirectToRoute("sorties");
         }
             
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -39,11 +39,6 @@ class UserController extends AbstractController
     {        
         $user = new Participant();
         $user = $this->getUser();
-        $isAdmin = 0;
-
-        if($user->getAdministrateur()==1){
-            $isAdmin = 1;
-        }
 
         $userForm = $this->createForm(RegisterType::class, $user);
 
@@ -51,16 +46,15 @@ class UserController extends AbstractController
         if($userForm->isSubmitted() && $userForm->isValid()){
             $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
             $user->setMotDePasse($mdpHashe);
-            $user->setActif(1);
-            if($isAdmin==1){
-                $user->setAdministrateur(1);
-            }else{
-                $user->setAdministrateur(0);
+            
+            try{
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash("success", "Votre profil a bien été modifié.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "Votre profil n'a pas été modifié, une erreur est arrivée.");
             }
-            $em->persist($user);
-            $em->flush();
-            $this->addFlash("success", "Votre profil a bien été modifié.");
-            return $this->redirectToRoute("/");
+            return $this->redirectToRoute("sorties");
         }
 
         return $this->render('user/modifier.html.twig', [
@@ -86,7 +80,8 @@ class UserController extends AbstractController
         $user = $userRepo->find($id);
 
         if(empty($user)){
-            throw $this->createNotFoundException("This user do not exists !");
+            $this->addFlash('warning', "Cet utilisateur n'existe pas dans la base de données.");
+            return $this->redirectToRoute("sorties");
         }
 
         return $this->render('user/user.html.twig', compact("user"));
