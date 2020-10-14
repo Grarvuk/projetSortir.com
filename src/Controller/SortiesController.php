@@ -67,19 +67,19 @@ class SortiesController extends AbstractController
         $inscription->setParticipant($this->getUser());
         $date = new \DateTime();
         $inscription->setDateInscription($date);
-        
+        $etatRequete = "";
         try{
             $em->persist($inscription);
             $em->flush();
             $this->etatSortie($sortieChoosen, $em);
-            $this->addFlash("success", "L'inscription a réussie.");
+            $etatRequete = "success";
         }catch(\Exception $e){
-            $this->addFlash('warning', "L'inscription n'a pas été faite, une erreur est arrivée.");
+            $etatRequete = "warning";
             return $this->redirectToRoute("sorties");
         }
 
         $response = new Response(
-            'Content',
+            $etatRequete,
             Response::HTTP_OK,
             array('content-type' => 'text/html')
         );
@@ -94,25 +94,29 @@ class SortiesController extends AbstractController
     {
         $inscription = new Inscription();
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $repoInscription  = $this->getDoctrine()->getRepository(Inscription::class);
         $sortieChoosen = $repoSortie->find($_POST["idSortie"]);
 
-        // if(empty($sortieChoosen)){
-        //     $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
-        //     return $this->redirectToRoute("sorties");
-        // }
 
-        // try{
-        //     $em->remove($sortieChoosen);
-        //     $em->flush();
-        //     $this->etatSortie($sortieChoosen);
-        //     $this->addFlash("success", "La désinscription a réussie.");
-        // }catch(\Exception $e){
-        //     $this->addFlash('warning', "La désinscription n'a pas été faite, une erreur est arrivée.");
-        //     return $this->redirectToRoute("sorties");
-        // }
+
+        if(empty($sortieChoosen)){
+            $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
+            return $this->redirectToRoute("sorties");
+        }
+        $etatRequete = "";
+        try{
+            $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
+            $this->etatSortie($sortieChoosen, $em);
+            $etatRequete = "success";
+            $this->addFlash("success", "La désinscription a réussie.");
+        }catch(\Exception $e){
+            $etatRequete = "warning";
+            $this->addFlash('warning', "La désinscription n'a pas été faite, une erreur est arrivée.");
+            return $this->redirectToRoute("sorties");
+        }
 
         $response = new Response(
-            'Content',
+            $etatRequete,
             Response::HTTP_OK,
             array('content-type' => 'text/html')
         );
