@@ -190,7 +190,7 @@ class Participant implements UserInterface
     }
 
     public function __toString() {
-        return $this->nom." ".$this->prenom;
+        return $this->pseudo;
     }
 
     ///////////Ne sert à rien mais doit être implentées////////////////
