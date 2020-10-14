@@ -2,7 +2,7 @@
 
 {% block title%} Créer une sortie {% endblock %}
 
-{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/form.css") }}">{% endblock %}
 
 {% block body %}
     Créer une sortie <br>
@@ -17,7 +17,7 @@
             {{ form_row(sortieForm.campus) }}
             {{ form_row(sortieForm.etat) }}
             {{ form_row(sortieForm.lieu) }}
-            <a href="{{ path('lieu_insert') }}">Ajouter un lieu</a>
+            <a href="{{ path('lieu_insert') }}" class="btn btn-secondary">Ajouter un lieu</a>
             {{ form_row(sortieForm.submit) }}
             {{ form_widget(sortieForm._token) }} {# render the CSRF Token #}
         {{ form_end(sortieForm, {'render_rest': false}) }}

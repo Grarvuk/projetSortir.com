@@ -5,6 +5,6 @@
 {% block stylesheets%}{% endblock %}
 
 {% block body %}
-    <button type="button" class="btn btn-secondary"><a href="{{ path('users') }}">Liste des utilisateurs</a></button>
-    <button type="button" class="btn btn-secondary"><a href="{{ path('campus') }}">Liste des campus</a></button>
+    <a href="{{ path('users') }}" class="btn btn-secondary">Liste des utilisateurs</a>
+    <a href="{{ path('campus') }}" class="btn btn-secondary">Liste des campus</a>
 {% endblock %}

@@ -163,7 +163,7 @@
             </tfoot>
         </table>
         <div>
-            <a href="{{ path('sortie_annule', {'id' : sortie.id}) }}">Annuler la sortie</a>
+            <a href="{{ path('sortie_annule', {'id' : sortie.id}) }}" class="btn btn-secondary">Annuler la sortie</a>
         </div>
 
         {{ form_row(sortieForm.submit) }}

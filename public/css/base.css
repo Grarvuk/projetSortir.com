@@ -10,6 +10,24 @@ header{
     display: flex;
 }
 
+.navbar{
+    margin-bottom: 20px;
+}
+
+.page-footer{
+    margin-top: 20px;
+}
+
+.btn{
+    background-color: lightskyblue !important;
+    color: black !important;
+    border: lightblue;
+}
+
+.btn:hover{
+    color: white !important;
+}
+
 .bg-perso{
     width: 100%;
     background-color: lightskyblue !important;

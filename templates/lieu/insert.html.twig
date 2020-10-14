@@ -2,7 +2,7 @@
 
 {% block title%} Créer un lieu {% endblock %}
 
-{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/register.css") }}">{% endblock %}
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/form.css") }}">{% endblock %}
 
 {% block body %}
     Créer un lieu <br>
@@ -13,7 +13,7 @@
             {{ form_row(lieuForm.latitude) }}
             {{ form_row(lieuForm.longitude) }}
             {{ form_row(lieuForm.ville) }}
-            <a href="{{ path('ville_insert') }}">Ajouter une ville</a>
+            <a href="{{ path('ville_insert') }}" class="btn btn-secondary">Ajouter une ville</a>
             {{ form_row(lieuForm.submit) }}
         {{ form_end(lieuForm) }}
     </div>
