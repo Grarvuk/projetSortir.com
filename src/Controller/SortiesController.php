@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Form\SortieType;
 use App\Form\SortieAnnuleType;
 use App\Entity\Sortie;
+use App\Entity\Etat;
 use App\Entity\Inscription;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -35,7 +36,9 @@ class SortiesController extends AbstractController
 
         $sortieForm->handleRequest($request);
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-            $sortie->setEtatSortie(0);
+            $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
+            $etat = $repoEtat->find(2);
+            $sortie->setEtatSortie($etat);
             $sortie->setUrlPhoto("url");
             $sortie->setOrganisateur($this->getUser());
             $em->persist($sortie);
@@ -55,6 +58,7 @@ class SortiesController extends AbstractController
     */
     public function insertInscription(EntityManagerInterface $em, Request $request)
     {
+
         $inscription = new Inscription();
 
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
@@ -66,6 +70,8 @@ class SortiesController extends AbstractController
         $inscription->setDateInscription($date);
         $em->persist($inscription);
         $em->flush();
+
+        $this->etatSortie($sortieChoosen);
 
         $this->addFlash("success", "inscription réussie");
 
@@ -84,19 +90,14 @@ class SortiesController extends AbstractController
     public function deleteInscription(EntityManagerInterface $em, Request $request)
     {
         $inscription = new Inscription();
+        //$repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        //$sortieChoosen = $repoSortie->find($_POST["idSortie"]);
 
         $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
 
         $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
 
-        // $inscription->setSortie($sortieChoosen);
-        // $inscription->setParticipant($this->getUser());
-        // $date = new \DateTime();
-        // $inscription->setDateInscription($date);
-        // $em->persist($inscription);
-        // $em->flush();
-
-        // $this->addFlash("success", "inscription réussie");
+        //$this->etatSortie($sortieChoosen);
 
         $response = new Response(
             'Content',
@@ -127,12 +128,12 @@ class SortiesController extends AbstractController
 
         $sortieForm->handleRequest($request);
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-            $sortie->setEtatSortie(0);
+            $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
+            $etat = $repoEtat->find(2);
+            $sortie->setEtat($etat);
             $sortie->setUrlPhoto("url");
             $em->persist($sortie);
             $em->flush();
-
-            // return $this->redirectToRoute("/");
         }
 
         if($user->getId()==$sortie->getOrganisateur()->getId())
@@ -164,7 +165,9 @@ class SortiesController extends AbstractController
 
         $sortieForm->handleRequest($request);
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-            $sortie->setEtatSortie(5);
+            $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
+            $etat = $repoEtat->find(6);
+            $sortie->setEtat($etat);
             $em->persist($sortie);
             $em->flush();
 
@@ -177,5 +180,35 @@ class SortiesController extends AbstractController
         ]);
     }
 
+    public function etatSortie(Sortie $sortie)
+    {
+        //if(){
+            //d
+        //}else{
+            $em = $this->getDoctrine()->getManager();
+            $repoInscription = $em->getRepository(Inscription::class);
+
+            $totalInscription = $repoInscription->createQueryBuilder('i')
+                ->where('i.sortie = :searchTerm')
+                ->setParameter('searchTerm', $sortie)
+                ->select('count(i.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if($totalInscription < $sortie->getNbinscriptionsmax()){
+                $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
+                $etat = $repoEtat->find(2);
+                $sortie->setEtat($etat);
+                $em->persist($sortie);
+                $em->flush();
+            }else{
+                $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
+                $etat = $repoEtat->find(4);
+                $sortie->setEtat($etat);
+                $em->persist($sortie);
+                $em->flush();
+            }
+        //}
+    } 
 
 }

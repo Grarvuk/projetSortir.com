@@ -46,10 +46,6 @@ class Sortie
     */
     private $descriptioninfos;
     /**
-    * @ORM\Column(type="integer", nullable=true)
-    */
-    private $etatsortie;
-    /**
     * @ORM\Column(type="string", length=255)
     */
     private $urlPhoto;
@@ -70,7 +66,7 @@ class Sortie
     */
 	private $etat;
 	/**
-    * @ORM\Column(type="string", length=255)
+    * @ORM\Column(type="string", length=255, nullable=true)
     */
     private $messageAnnulation;
 
@@ -122,14 +118,6 @@ class Sortie
 
 	public function setDescriptioninfos($descriptioninfos) {
 		$this->descriptioninfos = $descriptioninfos;
-	}
-
-	public function getEtatsortie() {
-		return $this->etatsortie;
-	}
-
-	public function setEtatsortie($etatsortie) {
-		$this->etatsortie = $etatsortie;
 	}
 
 	public function getUrlPhoto() {
