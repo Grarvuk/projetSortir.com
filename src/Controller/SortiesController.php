@@ -117,8 +117,11 @@ class SortiesController extends AbstractController
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
 
-        $resultat = $repoInscription->estInscris($this->getUser()->getId(), $id);
-        $isRegister = $resultat[0]["nbInscri"];
+        $estInscrit = $repoInscription->estInscris($this->getUser()->getId(), $id);
+        $isRegister = $estInscrit[0]["nbInscri"];
+
+        $lesInscrits = $repoInscription->lesInscrits($id);
+        dump($lesInscrits);
 
         $sortie = new Sortie();
         $sortie = $repoSortie->find($id);
@@ -151,7 +154,31 @@ class SortiesController extends AbstractController
             'isRegister' => $isRegister,
             'sortieForm' => $sortieForm->createView(),
             'user' => $user,
+            'lesInscrits' => $lesInscrits,
         ]);
+    }
+
+    /**
+    * @Route("/sorties/getParticipants/{id}", name="sortie_getParticipants", requirements={"id": "\d+"})
+    */
+    public function getParticipants($id, EntityManagerInterface $em, Request $request)
+    {
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
+
+        $estInscrit = $repoInscription->estInscris($this->getUser()->getId(), $id);
+        $isRegister = $estInscrit[0]["nbInscri"];
+
+        $lesInscrits = $repoInscription->lesInscrits($id);
+        dump($lesInscrits);
+
+        $response = new Response(
+            'Content',
+            Response::HTTP_OK,
+            array('content-type' => 'text/html')
+        );
+
+        return $response;
     }
 
     /**

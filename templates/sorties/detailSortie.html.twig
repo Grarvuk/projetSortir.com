@@ -138,10 +138,11 @@
                 </tr>
             </tfoot>
         </table>
+        <br>
         <div>
             <a href="{{ path('sortie_annule', {'id' : sortie.id}) }}" class="btn btn-secondary">Annuler la sortie</a>
         </div>
-
+        <br>
         {{ form_row(sortieForm.submit) }}
 
         {{ form_end(sortieForm) }}
@@ -165,4 +166,27 @@
             </div>
         {% endif %}
     {% endif %}
+    <br>
+    <table id="myTable2" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscrit in lesInscrits %}
+                <tr>
+                    <td>{{inscrit.participant.pseudo}}</td>
+                    <td>{{inscrit.participant.nom}} {{inscrit.participant.prenom}}</td>
+                </tr>
+            {% endfor%}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
+        </tfoot>
+    </table>
 {% endblock %}

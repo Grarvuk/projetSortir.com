@@ -37,7 +37,16 @@ class InscriptionRepository extends ServiceEntityRepository
         ;
     }
 
-
+    public function lesInscrits($idSortie)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.participant', 'p')
+            ->andWhere('s.sortie = :sortie')
+            ->setParameter('sortie', $idSortie)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
     public function deleteInscription($participant, $sortie)
     {
