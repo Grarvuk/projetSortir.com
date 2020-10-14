@@ -42,10 +42,13 @@ class AdminController extends AbstractController
             $mdpHashe = $encoder->encodePassword($user, $user->getMotDePasse());
             $user->setMotDePasse($mdpHashe);
 
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash("success", "Inscirption réussie");
+            try{
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash("success", "L'utilisateur a été créé.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "L'utilisateur n'a pas été créé, une erreur est arrivée.");
+            }
 
             return $this->redirectToRoute("users");
         }
@@ -63,6 +66,11 @@ class AdminController extends AbstractController
         $userRepo = $this->getDoctrine()->getRepository(Participant::class);
         $users = $userRepo->findAll();
 
+        if(empty($users)){
+            $this->addFlash('warning', "Il n'y a aucun utilisateur dans la base de données.");
+            return $this->redirectToRoute("user_register");
+        }
+
         return $this->render('admin/list.html.twig', compact("users"));
     }
 
@@ -74,16 +82,25 @@ class AdminController extends AbstractController
     {  
         $usersRepo = $this->getDoctrine()->getRepository(Participant::class);
         $user = $usersRepo->find($id);
+
+        if(empty($user)){
+            $this->addFlash('warning', "Cet utilisateur n'est pas dans la base de données.");
+            return $this->redirectToRoute("users");
+        }
+
         $userForm = $this->createForm(AdminUpdateType::class, $user);
 
         $userForm->handleRequest($request);
 
         if($userForm->isSubmitted() && $userForm->isValid())
         {
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash("success", "Inscirption réussie");
+            try{
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash("success", "L'utilisateur a été modifié.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "L'utilisateur n'a pas été modifié, une erreur est arrivée.");
+            }
 
             return $this->redirectToRoute("users");
         }
@@ -101,12 +118,17 @@ class AdminController extends AbstractController
         $usersRepo = $this->getDoctrine()->getRepository(Participant::class);
         $user = $usersRepo->find($id);
 
+        if(empty($user)){
+            $this->addFlash('warning', "Cet utilisateur n'est pas dans la base de données.");
+            return $this->redirectToRoute("users");
+        }
+
         try{
             $em->remove($user);
             $em->flush();
-            $this->addFlash('success', "the user has been deleted");
+            $this->addFlash('success', "L'utilisateur a été supprimé.");
         }catch(\Exception $e){
-            $this->addFlash('warning', "Le participant n'a pas été supprimé, regardez si il est présent dans une sortie. Si c'est le cas, il n'est pas possible de le supprimer.");
+            $this->addFlash('warning', "L'utilisateur n'a pas été supprimé, regardez si il est présent dans une sortie. Si c'est le cas, il n'est pas possible de le supprimer.");
         }
 
         return $this->redirectToRoute('users');
@@ -120,6 +142,8 @@ class AdminController extends AbstractController
     {  
         $finder = new Finder();
         $finder->files()->in('csv')->name('*.csv');
+
+        $erreur = 0;
 
         if ($finder->hasResults()) {
             foreach ($finder as $file) {
@@ -146,8 +170,12 @@ class AdminController extends AbstractController
                     $mdpHashe = $encoder->encodePassword($user, $row[6]);
                     $user->setMotDePasse($mdpHashe);
 
-                    $em->persist($user);
-                    $em->flush();
+                    try{
+                        $em->remove($user);
+                        $em->flush();
+                    }catch(\Exception $e){
+                        $erreur=1;    
+                    }
 
                     $lineNumber++;
                 }
@@ -155,12 +183,13 @@ class AdminController extends AbstractController
                 fclose($handle);
                 unlink($file->getRealPath());
             }
+            if($erreur==1){
+                $this->addFlash("warning", "Il y a eu une erreur pour un ou plusieurs utilisateurs.");
+            }
             $this->addFlash("success", "Intégration réussie");
         }else{
             $this->addFlash("warning", "Il n'y a pas de fichier csv dans public/csv/");
         }
-        
-
         
         return $this->redirectToRoute("users");
     }
@@ -172,6 +201,11 @@ class AdminController extends AbstractController
     {
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->findAll();
+
+        if(empty($campus)){
+            $this->addFlash('warning', "Il n'y a aucun campus dans la base de données.");
+            return $this->redirectToRoute("insert_campus");
+        }
 
         return $this->render('campus/list.html.twig', compact("campus"));
     }
@@ -186,10 +220,13 @@ class AdminController extends AbstractController
         
         $campusForm->handleRequest($request);
         if($campusForm->isSubmitted() && $campusForm->isValid()){
-            $em->persist($campus);
-            $em->flush();
-
-            $this->addFlash("success", "Campus enregistré");
+            try{
+                $em->persist($campus);
+                $em->flush();
+                $this->addFlash("success", "Le campus a été créé.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "Le campus n'a pas été créé, une erreur est arrivée.");
+            }
             return $this->redirectToRoute("campus");
         }
 
@@ -207,7 +244,8 @@ class AdminController extends AbstractController
         $campus = $campusRepo->find($id);
 
         if(empty($campus)){
-            throw $this->createNotFoundException("This campus do not exists !");
+            throw $this->createNotFoundException("Ce campus n'existe pas dans la base de données.");
+            return $this->redirectToRoute("campus");
         }
 
         return $this->render('campus/detail.html.twig', compact("campus"));
@@ -220,14 +258,23 @@ class AdminController extends AbstractController
     {
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->find($id);
+
+        if(empty($campus)){
+            throw $this->createNotFoundException("Ce campus n'existe pas dans la base de données.");
+            return $this->redirectToRoute("campus");
+        }
+
         $campusForm = $this->createForm(CampusType::class, $campus);
         
         $campusForm->handleRequest($request);
         if($campusForm->isSubmitted() && $campusForm->isValid()){
-            $em->persist($campus);
-            $em->flush();
-
-            $this->addFlash("success", "campus enregistré");
+            try{
+                $em->persist($campus);
+                $em->flush();
+                $this->addFlash("success", "Le campus a été modifié.");
+            }catch(\Exception $e){
+                $this->addFlash('warning', "Le campus n'a pas été modifié, une erreur est arrivée.");
+            }
             return $this->redirectToRoute("campus");
         }
 
@@ -244,12 +291,17 @@ class AdminController extends AbstractController
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->find($id);
 
+        if(empty($campus)){
+            throw $this->createNotFoundException("Ce campus n'existe pas dans la base de données.");
+            return $this->redirectToRoute("campus");
+        }
+
         try{
             $em->remove($campus);
             $em->flush();
-            $this->addFlash('success', "the campus has been deleted");
+            $this->addFlash('success', "Le campus a été supprimé.");
         }catch(\Exception $e){
-            $this->addFlash('warning', "Le campus n'a pas été supprimée, regardez si elle est présente dans une sortie. Si c'est le cas, il n'est pas possible de la supprimer.");
+            $this->addFlash('warning', "Le campus n'a pas été supprimée, regardez si il est présent dans une sortie. Si c'est le cas, il n'est pas possible de le supprimer.");
         }
 
         return $this->redirectToRoute('campus');
