@@ -142,6 +142,8 @@ $( document ).ready(function() {
         $(".svgRegister").append('<span id="txtBtnRegister"> Vous êtes inscrit !</span>');
 
         $(".svgRegister").trigger('svgInscri');
+
+        updateTableParticipant(idSorti);
     }
 
     function desinscription(idSorti)
@@ -171,5 +173,42 @@ $( document ).ready(function() {
         $(".svgRegister").append('<span id="txtBtnRegister"> S\'inscrire</span>');
         
         $(".svgRegister").trigger('svgInscri');
+
+        updateTableParticipant(idSorti);
+    }
+
+    function updateTableParticipant(idSorti)
+    {
+        $.ajax({
+            url : adresseBase+"sorties/getParticipants",
+            type : "POST",
+            data : {
+                "idSortie": idSorti,
+            },
+            dataType: 'json',
+        
+            succes: function (res) {
+               console.log(res);
+            },
+            complete: function (jqXHR, status) {
+                $("#myTable2").DataTable().clear().draw();
+
+                var obj = JSON.parse(jqXHR.responseText);
+                $.each(obj, function(index, item) 
+                {
+                    $("#myTable2").DataTable().row.add(
+                    [
+                        item.participant.pseudo,
+                        item.participant.nom+" "+item.participant.prenom
+                    ]).node()
+                }); 
+                $("#myTable2").DataTable().draw();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr); //Ce code affichera le message d'erreur, ici Message d'erreur.
+                console.log(ajaxOptions);
+                console.log(thrownError);
+            }
+        })
     }
 });

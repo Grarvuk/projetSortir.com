@@ -6,11 +6,12 @@ use App\Repository\ParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Campus;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  */
-class Participant implements UserInterface
+class Participant implements UserInterface, JsonSerializable
 {
 
     /**
@@ -65,6 +66,16 @@ class Participant implements UserInterface
     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="participants")
     */
     private $campus;
+
+    //Obligatoire
+    public function jsonSerialize()
+    {
+        return array(
+            'pseudo' => $this->pseudo,
+            'nom'=> $this->nom,
+            'prenom'=> $this->prenom,
+        );
+    }
 
     public function getId(): ?int
     {

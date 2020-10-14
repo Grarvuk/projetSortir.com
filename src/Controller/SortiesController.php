@@ -71,7 +71,7 @@ class SortiesController extends AbstractController
         $em->persist($inscription);
         $em->flush();
 
-        $this->etatSortie($sortieChoosen);
+        $this->etatSortie($sortieChoosen, $em);
 
         $this->addFlash("success", "inscription réussie");
 
@@ -97,7 +97,7 @@ class SortiesController extends AbstractController
 
         $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
 
-        $this->etatSortie($sortieChoosen);
+        $this->etatSortie($sortieChoosen, $em);
 
         $response = new Response(
             'Content',
@@ -121,7 +121,7 @@ class SortiesController extends AbstractController
         $isRegister = $estInscrit[0]["nbInscri"];
 
         $lesInscrits = $repoInscription->lesInscrits($id);
-        dump($lesInscrits);
+        dump(json_encode($lesInscrits));
 
         $sortie = new Sortie();
         $sortie = $repoSortie->find($id);
@@ -159,23 +159,19 @@ class SortiesController extends AbstractController
     }
 
     /**
-    * @Route("/sorties/getParticipants/{id}", name="sortie_getParticipants", requirements={"id": "\d+"})
+    * @Route("/sorties/getParticipants", name="sortie_getParticipants")
     */
-    public function getParticipants($id, EntityManagerInterface $em, Request $request)
+    public function getParticipants(EntityManagerInterface $em, Request $request)
     {
-        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
 
-        $estInscrit = $repoInscription->estInscris($this->getUser()->getId(), $id);
-        $isRegister = $estInscrit[0]["nbInscri"];
-
-        $lesInscrits = $repoInscription->lesInscrits($id);
-        dump($lesInscrits);
+        $lesInscrits = $repoInscription->lesInscrits($_POST["idSortie"]);
+        $json = json_encode($lesInscrits);
 
         $response = new Response(
-            'Content',
+            $json,
             Response::HTTP_OK,
-            array('content-type' => 'text/html')
+            array('content-type' => 'application/json')
         );
 
         return $response;
@@ -207,7 +203,7 @@ class SortiesController extends AbstractController
         ]);
     }
 
-    public function etatSortie(Sortie $sortie)
+    public function etatSortie(Sortie $sortie, $em)
     {
         if(new \DateTime() > $sortie->getDatecloture()){
             $repoEtat = $this->getDoctrine()->getRepository(Etat::class);

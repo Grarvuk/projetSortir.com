@@ -6,11 +6,12 @@ use App\Repository\InscriptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Participant;
 use App\Entity\Sortie;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=InscriptionRepository::class)
  */
-class Inscription
+class Inscription implements JsonSerializable
 {
 
     /**
@@ -32,6 +33,14 @@ class Inscription
     * @ORM\ManyToOne(targetEntity="App\Entity\Participant")
     */
     private $participant;
+
+    public function jsonSerialize()
+    {
+        return array(
+            'dateInscription' => $this->date_inscription,
+            'participant'=> $this->participant,
+        );
+    }
 
     public function getDateInscription()
     {
