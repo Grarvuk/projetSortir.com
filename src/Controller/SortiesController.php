@@ -90,14 +90,14 @@ class SortiesController extends AbstractController
     public function deleteInscription(EntityManagerInterface $em, Request $request)
     {
         $inscription = new Inscription();
-        //$repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
-        //$sortieChoosen = $repoSortie->find($_POST["idSortie"]);
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortieChoosen = $repoSortie->find($_POST["idSortie"]);
 
         $repoInscription = $this->getDoctrine()->getRepository(Inscription::class);
 
         $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
 
-        //$this->etatSortie($sortieChoosen);
+        $this->etatSortie($sortieChoosen);
 
         $response = new Response(
             'Content',
@@ -182,9 +182,13 @@ class SortiesController extends AbstractController
 
     public function etatSortie(Sortie $sortie)
     {
-        //if(){
-            //d
-        //}else{
+        if(new \DateTime() > $sortie->getDatecloture()){
+            $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
+                $etat = $repoEtat->find(8);
+                $sortie->setEtat($etat);
+                $em->persist($sortie);
+                $em->flush();
+        }else{
             $em = $this->getDoctrine()->getManager();
             $repoInscription = $em->getRepository(Inscription::class);
 
@@ -208,7 +212,7 @@ class SortiesController extends AbstractController
                 $em->persist($sortie);
                 $em->flush();
             }
-        //}
+        }
     } 
 
 }

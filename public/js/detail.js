@@ -150,7 +150,7 @@ $( document ).ready(function() {
             url : adresseBase+"sorties/deleteinscription",
             type : "POST",
             data : {
-                "idSortie": 1,
+                "idSortie": idSorti,
             },
         
             succes: function (res) {
