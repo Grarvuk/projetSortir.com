@@ -96,20 +96,20 @@ class SortiesController extends AbstractController
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $sortieChoosen = $repoSortie->find($_POST["idSortie"]);
 
-        if(empty($sortieChoosen)){
-            $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
-            return $this->redirectToRoute("sorties");
-        }
+        // if(empty($sortieChoosen)){
+        //     $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
+        //     return $this->redirectToRoute("sorties");
+        // }
 
-        try{
-            $em->remove($sortieChoosen);
-            $em->flush();
-            $this->etatSortie($sortieChoosen);
-            $this->addFlash("success", "La désinscription a réussie.");
-        }catch(\Exception $e){
-            $this->addFlash('warning', "La désinscription n'a pas été faite, une erreur est arrivée.");
-            return $this->redirectToRoute("sorties");
-        }
+        // try{
+        //     $em->remove($sortieChoosen);
+        //     $em->flush();
+        //     $this->etatSortie($sortieChoosen);
+        //     $this->addFlash("success", "La désinscription a réussie.");
+        // }catch(\Exception $e){
+        //     $this->addFlash('warning', "La désinscription n'a pas été faite, une erreur est arrivée.");
+        //     return $this->redirectToRoute("sorties");
+        // }
 
         $response = new Response(
             'Content',
