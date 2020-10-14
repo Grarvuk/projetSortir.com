@@ -12,14 +12,12 @@
     <table id="myTable" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Champs</th>
-                    <th>Valeur</th>
+                    <th>Nom du campus</th>
                 </tr>
             </thead>
             <tbody>
                 {% for campu in campus %}
                     <tr>
-                        <td>Nom du campus</td>
                         <td><a href="{{ path('campus_detail', {'id' : campu.id}) }}">{{ campu.getNomCampus() }}</a></td>
                     </tr>
                 {% endfor%}

@@ -10,15 +10,15 @@
     <table id="myTable" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Champs</th>
-                    <th>Valeur</th>
+                    <th>Pseudo du l'utilisateur</th>
+                    <th>Campus de l'utilisateur</th>
                 </tr>
             </thead>
             <tbody>
                 {% for user in users %}
                     <tr>
-                        <td>Nom de l'utilisateur</td>
                         <td><a href="{{ path('profile', {'id' : user.id}) }}">{{ user.pseudo }}</a></td>
+                        <td>{{ user.campus }}</td>
                     </tr>
                 {% endfor%}
             </tbody>

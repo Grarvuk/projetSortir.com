@@ -14,15 +14,15 @@
     <table id="myTable" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Champs</th>
-                    <th>Valeur</th>
+                    <th>Nom du lieu</th>
+                    <th>Ville du lieu</th>
                 </tr>
             </thead>
             <tbody>
                 {% for lieu in lieux %}
                     <tr>
-                        <td>Nom du lieu</td>
                         <td><a href="{{ path('lieu_detail', {'id' : lieu.id}) }}">{{ lieu.getNomLieu() }}</a></td>
+                        <td><a href="{{ path('ville_detail', {'id' : lieu.ville.id}) }}">{{ lieu.ville() }}</a></td>
                     </tr>
                 {% endfor%}
             </tbody>
