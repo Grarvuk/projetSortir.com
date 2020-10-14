@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Créer un campus {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/form.css") }}">{% endblock %}
+
+{% block body %}
+    Créer un campus <br>
+    <div>
+        {{ form_start(campusForm) }}
+            {{ form_row(campusForm.nom_campus) }}
+        {{ form_end(campusForm) }}
+    </div>
+{% endblock %}

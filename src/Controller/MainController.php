@@ -19,5 +19,8 @@ class MainController extends AbstractController
         $Sorties = $repoSortie->findBy(["etatsortie" => 1]);
                 
         return $this->render("Sorties/listSorties.html.twig", ["Sorties" => $Sorties]);
+       /* return $this->render('base.html.twig', [
+            'controller_name' => 'MainController',
+        ]);*/
     }
 }

@@ -69,6 +69,10 @@ class Sortie
     * @ORM\ManyToOne(targetEntity="App\Entity\Etat")
     */
 	private $etat;
+	/**
+    * @ORM\Column(type="string", length=255)
+    */
+    private $messageAnnulation;
 
 
 
@@ -171,5 +175,13 @@ class Sortie
     public function getId()
     {
         return $this->id;
+	}
+
+	public function getMessageAnnulation() {
+		return $this->messageAnnulation;
+	}
+
+	public function setMessageAnnulation($messageAnnulation) {
+		$this->messageAnnulation = $messageAnnulation;
 	}
 }

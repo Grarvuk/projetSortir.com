@@ -1,28 +1,24 @@
 {% extends "base.html.twig" %}
 
-{% block title%} Liste des lieux {% endblock %}
+{% block title%} Liste des campus {% endblock %}
 
 {% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
-
 {% block javascript%} 
     <script src="{{ asset("js/detail.js") }}"></script>
 {% endblock %}
-
 {% block body %}
-    Liste des lieux <br>
+    Liste des campus <br>
 
     <table id="myTable" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Nom du lieu</th>
-                    <th>Ville du lieu</th>
+                    <th>Nom du campus</th>
                 </tr>
             </thead>
             <tbody>
-                {% for lieu in lieux %}
+                {% for campu in campus %}
                     <tr>
-                        <td><a href="{{ path('lieu_detail', {'id' : lieu.id}) }}">{{ lieu.getNomLieu() }}</a></td>
-                        <td><a href="{{ path('ville_detail', {'id' : lieu.ville.id}) }}">{{ lieu.ville() }}</a></td>
+                        <td><a href="{{ path('campus_detail', {'id' : campu.id}) }}">{{ campu.getNomCampus() }}</a></td>
                     </tr>
                 {% endfor%}
             </tbody>
@@ -31,6 +27,7 @@
         </table>
 
     <div>
-    <a href="{{ path('lieu_insert') }}" class="btn btn-secondary">Ajouter un lieu</a>
+        
+    <a href="{{ path('campus_insert') }}" class="btn btn-secondary">Ajouter un campus</a>
     </div>
 {% endblock %}

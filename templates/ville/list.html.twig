@@ -12,14 +12,12 @@
     <table id="myTable" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Champs</th>
-                    <th>Valeur</th>
+                    <th>Nom de la ville</th>
                 </tr>
             </thead>
             <tbody>
                 {% for ville in villes %}
                     <tr>
-                        <td>Nom de la ville</td>
                         <td><a href="{{ path('ville_detail', {'id' : ville.id}) }}">{{ ville.getNomVille() }}</a></td>
                     </tr>
                 {% endfor%}
@@ -30,6 +28,6 @@
 
     <div>
         
-    <a href="{{ path('ville_insert') }}">Ajouter une ville</a>
+    <a href="{{ path('ville_insert') }}" class="btn btn-secondary">Ajouter une ville</a>
     </div>
 {% endblock %}

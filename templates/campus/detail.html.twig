@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Détails du campus {{ campus.getNomCampus() }} {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
+
+{% block body %}
+    Détails du campus {{ campus.getNomCampus() }} <br>
+    <div>
+        <p>Nom du campus : {{ campus.getNomCampus() }}</p>
+        <div>
+            <a href="{{ path('campus_update', {'id' : campus.id}) }}" class="btn btn-secondary">Modifier le campus</a>
+            <a href="{{ path('campus_delete', {'id' : campus.id}) }}" class="btn btn-secondary">Supprimer le campus</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+.svgNonInscri:hover{
+    fill:green;
+    color:green;
+    
+}
+
+.svgBorder{
+    border-width: 1px;
+    border-style: solid;
+    width: 200px;
+    padding: 10px;
+}
+
+.svgNonInscri {
+    fill:#212529;
+    color:#212529;
+}
+
+.svgInscri{
+    fill:green;
+    color:green;
+}
+
+.svgInscri:hover{
+    fill:red;
+    color:red;
+}

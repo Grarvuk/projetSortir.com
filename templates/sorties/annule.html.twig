@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title%} Créer une sortie {% endblock %}
+
+{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/form.css") }}">{% endblock %}
+
+{% block body %}
+    Annuler une sortie <br>
+    <div>
+        {{ form_start(sortieForm) }}
+            {{ form_row(sortieForm.messageAnnulation) }}
+            {{ form_row(sortieForm.submit) }}
+            {{ form_widget(sortieForm._token) }} {# render the CSRF Token #}
+        {{ form_end(sortieForm, {'render_rest': false}) }}
+    </div>
+{% endblock %}
