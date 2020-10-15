@@ -6,7 +6,10 @@ $( document ).ready(function() {
     $('#myTable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
-        }
+        },
+        // "columnDefs": [
+        //     { className: "my_class", "targets": [ 0 ] }
+        // ]
     });
 
     $('#myTable2').DataTable({

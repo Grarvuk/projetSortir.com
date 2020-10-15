@@ -13,6 +13,7 @@
         <script src="{{ asset("js/myScript.js") }}"></script>
 
         <link rel="stylesheet" href="{{ asset("css/base.css") }}">
+        <link rel="stylesheet" href="{{ asset("css/barTelephone.css") }}">
 
         <meta name="viewport"
           content="width=device-width,   initial-scale=1.0">
@@ -23,6 +24,35 @@
         {% block javascript %}{% endblock %}
     </head>
     <body>
+    {# Menu telephone #}
+
+    <!-- Top Navigation Menu -->
+    <div class="topnav">
+    <a href="#home" class="active"><span class="noir">Logo</span></a>
+    <div id="myLinks">
+    <a href="#news">News</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+    </div>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    {# https://iconmonstr.com/menu-1-svg/ #}
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z"/></svg>
+    </a>
+    </div>
+    <script>
+    function myFunction() 
+    {
+        var x = document.getElementById("myLinks");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } 
+        else 
+        {
+            x.style.display = "block";
+        }
+    }
+    </script>
+    {# Fin menu téléphone #}
         <div class="container">
             <header>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light bg-perso">
@@ -42,6 +72,9 @@
                         {% endif %}
                     </ul>
                 </nav>
+
+
+
             </header>
             <main>
                 <div class="content">
