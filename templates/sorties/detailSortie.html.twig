@@ -11,7 +11,7 @@
     <h1>Détail de la sortie</h1>
     <div>
 
-        {%  if(isOrganisateur==0 and user.administrateur==0) %}
+        {%  if((isOrganisateur==0 and user.administrateur==0) or sortie.etat.id!=2) %}
 
             <table id="sortieTable" class="display" style="width:100%">
             <thead>
@@ -48,10 +48,6 @@
                 <tr>
                     <td>Description</td>
                     <td>{{sortie.descriptioninfos}}</td>
-                </tr>
-                <tr>
-                    <td>Etat de la sortie</td>
-                    <td>{{sortie.etat.libelle}}</td>
                 </tr>
                 <tr>
                     <td>Campus concerné</td>
