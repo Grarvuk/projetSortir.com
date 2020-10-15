@@ -48,7 +48,7 @@ class InscriptionRepository extends ServiceEntityRepository
         ;
     }
     
-    public function deleteInscription($participant, $sortie)
+    /*public function deleteInscription($participant, $sortie)
     {
         $em = $this->getEntityManager();
         // $dql = DELETE  i WHERE  ;
@@ -59,7 +59,7 @@ class InscriptionRepository extends ServiceEntityRepository
         $query = $em->createQuery($dql);
         return  $query->getResult();
 
-    }
+    }*/
 
     // /**
     //  * @return Inscription[] Returns an array of Inscription objects
