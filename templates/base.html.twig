@@ -30,9 +30,18 @@
     <div class="topnav">
     <a href="#home" class="active"><span class="noir">Logo</span></a>
     <div id="myLinks">
-    <a href="#news">News</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">About</a>
+    <a href="{{ path('sorties') }}">Les sorties</a>
+    <a href="{{ path('lieux') }}">Les lieux</a>
+    <a href="{{ path('villes') }}">Les villes</a>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}">Panneau admin</a>
+        {% endif %}
+            <a href="{{ path('user_update') }}">Mon profil</a>
+            <a href="{{ path('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ path('login') }}">Login</a>
+    {% endif %}
     </div>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     {# https://iconmonstr.com/menu-1-svg/ #}
