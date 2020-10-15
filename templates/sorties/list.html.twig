@@ -23,7 +23,7 @@
                 <td> <a href="{{ path('sortie_detail', {'id': row.id}) }}" title="More details on {{ row.nom }}">  {{ row.nom }}  </td>
                 <td>   {{ row.datedebut|date('Y-m-d') }}   </td>
                 <td>   {{ row.datecloture|date('Y-m-d') }}   </td>
-                <td>   {{ row.duree|date('H:i:s')}}   </td>
+                <td>   {{ row.duree|date('H:i')}}   </td>
                 <td>   {{ row.nbinscriptionsmax }}   </td>
                 <td>   {{ row.etat.libelle }}   </td>
                 </tr>            
