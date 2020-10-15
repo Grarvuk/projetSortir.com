@@ -297,7 +297,9 @@ class SortiesController extends AbstractController
             $this->etatSortie($Sortie, $em);
             $date = new \DateTime();
             if($date->diff($Sortie->getDatecloture())->m >= 1){
-                unset($Sorties[$keySortie]);
+                if($date>$Sortie->getDatecloture()){
+                    unset($Sorties[$keySortie]);
+                }
             }
         }
                 
