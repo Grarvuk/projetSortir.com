@@ -29,17 +29,17 @@ class Campus
     */
     private $participants;
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getNomCampus(): ?String
+    public function getNomCampus()
     {
         return $this->nom_campus;
     }
 
-    public function getParticipants(): ?String
+    public function getParticipants()
     {
         return $this->participants;
     }

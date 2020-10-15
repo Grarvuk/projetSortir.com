@@ -28,9 +28,9 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-light bg-perso">
                     <ul class="navbar-nav">
                         <li class="nav-item"><p class="nav-link">projetSortir.com</p></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('sorties') }}">Liste des sorties</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('lieux') }}">Liste des lieux</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('villes') }}">Liste des villes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('sorties') }}">Les sorties</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('lieux') }}">Les lieux</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('villes') }}">Les villes</a></li>
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Panneau admin</a></li>
@@ -45,6 +45,7 @@
             </header>
             <main>
                 <div class="content">
+                    <a class="btn btn-secondary" href=javascript:history.go(-1)>Retour</a>
                     <div id="flashMessage">
                     {% for label, messages in app.flashes %}
                         {% for message in messages %}

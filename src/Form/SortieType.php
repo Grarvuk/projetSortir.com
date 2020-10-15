@@ -54,10 +54,6 @@ class SortieType extends AbstractType
                 "label" => "Campus"
                 , 'attr' => ['class' => $lesClass]
             ])
-            ->add('etat', null, [
-                "label" => "Etat"
-                , 'attr' => ['class' => $lesClass]
-            ])
             ->add('lieu', null, [
                 "label" => "Lieu"
                 , 'attr' => ['class' => $lesClass]
