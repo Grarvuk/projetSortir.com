@@ -108,10 +108,8 @@ class SortiesController extends AbstractController
             $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
             $this->etatSortie($sortieChoosen, $em);
             $etatRequete = "success";
-            $this->addFlash("success", "La désinscription a réussie.");
         }catch(\Exception $e){
             $etatRequete = "warning";
-            $this->addFlash('warning', "La désinscription n'a pas été faite, une erreur est arrivée.");
             return $this->redirectToRoute("sorties");
         }
 

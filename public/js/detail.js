@@ -174,11 +174,11 @@ $( document ).ready(function() {
                
             },
             complete: function (jqXHR, status) {
-                $("#myTable2").DataTable().clear().draw();
 
                 var etatRequete = jqXHR.responseText;
                 if(etatRequete=="success")
                 {
+                    $("#myTable2").DataTable().clear().draw();
                     $("#flashMessage").append("<div class='alert-success'>Vous n'êtes plus inscrit.</div>");
                     $(".svgRegister").removeClass( "svgInscri" ).addClass( "svgNonInscri" );
             
@@ -190,11 +190,12 @@ $( document ).ready(function() {
                     $(".svgRegister").trigger('svgInscri');
             
                     updateTableParticipant(idSorti);
+                    console.log("ici")
                 }
                 else
                 {
                     $("#flashMessage").append("<div class='alert-warning'>La désinscription n'a pas été faite, une erreur est arrivée.</div>");
-                    updateTableParticipant(idSorti);
+                    // updateTableParticipant(idSorti);
                 }
                 
             },
