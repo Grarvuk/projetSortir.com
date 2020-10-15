@@ -285,6 +285,11 @@ class SortiesController extends AbstractController
      */
     public function sorties(EntityManagerInterface $em)
     {
+        if($this->anonymousOnly())
+        {
+            return $this->redirectToRoute("login");
+        }
+
         $repoSortie = $em->getRepository(Sortie::class);
         $Sorties = $repoSortie->findAll();
         
@@ -298,5 +303,18 @@ class SortiesController extends AbstractController
                 
         return $this->render("Sorties/list.html.twig", ["Sorties" => $Sorties]);
     }
+
+    public function anonymousOnly()
+    {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')||
+        $this->get('security.authorization_checker')->isGranted('ROLE_USER'))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    } 
 
 }
