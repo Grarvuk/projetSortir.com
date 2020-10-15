@@ -92,20 +92,29 @@ class SortiesController extends AbstractController
     */
     public function deleteInscription(EntityManagerInterface $em, Request $request)
     {
-        $inscription = new Inscription();
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
-        $repoInscription  = $this->getDoctrine()->getRepository(Inscription::class);
         $sortieChoosen = $repoSortie->find($_POST["idSortie"]);
-
-
 
         if(empty($sortieChoosen)){
             $this->addFlash('warning', "Cette sortie n'existe pas dans la base de données.");
             return $this->redirectToRoute("sorties");
         }
+        
+        $repoInscription  = $this->getDoctrine()->getRepository(Inscription::class);
+        $inscription = $repoInscription->findOneBy([
+            'sortie' => $sortieChoosen,
+            'participant' => $this->getUser(),
+        ]);
+
+        if(empty($inscription)){
+             $this->addFlash('warning', "Cette inscription n'existe pas dans la base de données.");
+            return $this->redirectToRoute("sorties");
+        }
+
         $etatRequete = "";
         try{
-            $repoInscription->deleteInscription($this->getUser()->getId(), $_POST["idSortie"]);
+            $em->remove($inscription);
+            $em->flush();
             $this->etatSortie($sortieChoosen, $em);
             $etatRequete = "success";
         }catch(\Exception $e){
@@ -134,7 +143,6 @@ class SortiesController extends AbstractController
         $isRegister = $estInscrit[0]["nbInscri"];
 
         $lesInscrits = $repoInscription->lesInscrits($id);
-        dump(json_encode($lesInscrits));
 
         $sortie = $repoSortie->find($id);
         $user = $this->getUser();
