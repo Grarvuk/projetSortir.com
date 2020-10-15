@@ -2,7 +2,16 @@ $( document ).ready(function() {
     var premierClick = true;
     var estInscris;
     var txtDOrigine = "";
-    // console.log(adresseBase+"sorties/insertinscription");
+    
+    $('#sortieTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+        },
+        "columnDefs": [
+            { className: "colChamps", "targets": [ 0 ] },
+            { className: "colValeur", "targets": [ 1 ] },
+        ]
+    });
 
     //Partie mousseout de la sourie
     //Partie mousseout de la sourie

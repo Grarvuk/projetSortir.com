@@ -1,5 +1,6 @@
 .content{
     width: 100%;
+    margin-top: 10px;
 }
 
 .alert{
@@ -28,18 +29,53 @@ header{
     color: white !important;
 }
 
-.bg-perso{
-    width: 100%;
-    background-color: lightskyblue !important;
-    color: white !important;
-}
+
 
 .navbar-perso .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover
 {
-    color: white !important;
+color: white !important;
 }
 
 .navbar-perso .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link
 {
-    color: black !important;
+    color: black !important;    
+}
+
+body 
+{
+    color: black;
+}
+
+.noir{
+    color: black;
+}
+
+.bg-perso{
+    width: 100%;
+    background-color: lightskyblue !important;
+    color: white !important;
+    display: block;
+}
+  /* On screens that are 992px wide or less, the background color is blue */
+  @media screen and (max-width: 992px) {
+    nav {
+        display: none;
+    }
+    .bg-perso{
+        width: 100%;
+        background-color: lightskyblue !important;
+        color: white !important;
+        display: none;
+    }
+}
+  
+  /* On screens that are 600px wide or less, the background color is olive */
+  @media screen and (max-width: 600px) {
+    .container{
+        width: 100% !important;
+    }
+  }
+
+  .form-control{
+    height: 80% !important;
 }
