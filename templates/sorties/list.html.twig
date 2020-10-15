@@ -1,17 +1,41 @@
-{% extends "base.html.twig" %}
-
-{% block title%} Liste des lieux {% endblock %}
-
-{% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
-
+{% extends 'base.html.twig' %}
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset("css/detail.css") }}">{% endblock %}
+{% block javascript %} 
+    <script src="{{ asset("js/detail.js") }}"></script>
+{% endblock %}
 {% block body %}
-    Liste des lieux <br>
+    
+    <h1>Liste des sorties</h1>
+    <table id="myTable" class="display" style="width:100%" >
+    <thead>
+        <tr>
+            <th> Nom </th>
+            <th> Date début </th>
+            <th> Date cloture </th>
+            <th> Duree </th>
+            <th> Nombre max d'inscription </th>
+            <th> Etat </th>
+         </tr>
+    </thead>
+    <tbody>
+        {% for row in Sorties|sort %}
+                <tr> 
+                <td> <a href="{{ path('sortie_detail', {'id': row.id}) }}" title="More details on {{ row.nom }}">  {{ row.nom }}  </td>
+                <td>   {{ row.datedebut|date('Y-m-d') }}   </td>
+                <td>   {{ row.datecloture|date('Y-m-d') }}   </td>
+                <td>   {{ row.duree|date('H:i:s')}}   </td>
+                <td>   {{ row.nbinscriptionsmax }}   </td>
+                <td>   {{ row.etat.libelle }}   </td>
+                </tr>            
+        {% endfor %}
+        </tbody>
+    </table>
     <div>
-        {% for lieu in lieux %}
-        <div class="lieu">
-            <a href="{{ path('lieu_detail', {'id' : lieu.id}) }}">{{ lieu.getNomLieu() }}</a>
-        </div>
-    {% endfor%}
-    <a href="{{ path('lieu_insert') }}">Ajouter un lieu</a>
+        <a href="{{ path('sortie_insert') }}" class="btn btn-secondary">Ajouter une sortie</a>
     </div>
+
+{% endblock %}
+
+{% block title %}
+    Les sorties
 {% endblock %}

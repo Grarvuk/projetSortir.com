@@ -28,7 +28,7 @@ class SortiesController extends AbstractController
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
             $etat = $repoEtat->find(2);
-            $sortie->setEtatSortie($etat, $em);
+            $sortie->setEtat($etat, $em);
             $sortie->setUrlPhoto("url");
             $sortie->setOrganisateur($this->getUser());
             
@@ -283,10 +283,20 @@ class SortiesController extends AbstractController
     /**
      * @Route("/sorties", name="sorties")
      */
-    public function sorties()
+    public function sorties(EntityManagerInterface $em)
     {
+        $repoSortie = $em->getRepository(Sortie::class);
+        $Sorties = $repoSortie->findAll();
         
-        return $this->render('base.html.twig');
+        foreach($Sorties as $keySortie => $Sortie){
+            $this->etatSortie($Sortie, $em);
+            $date = new \DateTime();
+            if($date->diff($Sortie->getDatecloture())->m >= 1){
+                unset($Sorties[$keySortie]);
+            }
+        }
+                
+        return $this->render("Sorties/list.html.twig", ["Sorties" => $Sorties]);
     }
 
 }

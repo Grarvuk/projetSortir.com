@@ -5,7 +5,7 @@
 {% block stylesheets%} <link rel="stylesheet" href="{{ asset("css/profile.css") }}">{% endblock %}
 
 {% block body %}
-    Détails de la ville {{ ville.getNomVille() }} <br>
+    <h1>Détails de la ville {{ ville.getNomVille() }}</h1>
     <div>
         <p>Nom de la ville : {{ ville.getNomVille() }}</p>
         <p>Code postal : {{ ville.getCodePostale() }}</p>
