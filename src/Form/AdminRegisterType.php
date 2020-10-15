@@ -53,8 +53,8 @@ class AdminRegisterType extends AbstractType
             ])
             ->add("administrateur", ChoiceType::class, [
                 'choices' => [
+                    'No' => false,
                     'Yes' => true,
-                    'No' => false
                 ],
                  'label' => 'Administrateur ?'
             ])
