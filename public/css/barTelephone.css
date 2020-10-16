@@ -9,6 +9,7 @@
         height: 500px;
         color: white;
         border-radius: 10px;
+        fill:white !important;
       }
       
       .topnav {
@@ -17,6 +18,7 @@
         position: relative;
         width: 100%;
         color : black;
+        fill:black !important;
       }
       
       .topnav #myLinks {
@@ -29,6 +31,7 @@
         text-decoration: none;
         font-size: 17px;
         display: block;
+        fill:white !important;
       }
       
       .topnav a.icon {
@@ -37,14 +40,18 @@
         position: absolute;
         right: 0;
         top: 0;
+        fill:black !important;
+        color:black;
       }
       
       .topnav a:hover {
-        background-color: #ddd;
+        background-color: #009dff !important;
         color: black;
+        fill:black !important;
       }
       
       .active {
+        fill:white !important;
         background-color: lightskyblue !important;
       }
 }
