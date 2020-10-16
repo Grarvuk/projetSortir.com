@@ -16,7 +16,7 @@
             {{ form_row(sortieForm.descriptioninfos) }}
             {{ form_row(sortieForm.campus) }}
             {{ form_row(sortieForm.lieu) }}
-            <a href="{{ path('lieu_insert') }}" class="btn btn-secondary">Ajouter un lieu</a>
+            <a href="{{ path('lieu_insert') }}" class="btn btn-bleu ">Ajouter un lieu</a>
             {{ form_row(sortieForm.submit) }}
             {{ form_widget(sortieForm._token) }} {# render the CSRF Token #}
         {{ form_end(sortieForm, {'render_rest': false}) }}

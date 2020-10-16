@@ -19,7 +19,7 @@ header{
     margin-top: 20px;
 }
 
-.btn{
+.btn-bleu{
     background-color: lightskyblue !important;
     color: black !important;
     border: lightblue;
@@ -78,4 +78,19 @@ body
 
   .form-control{
     height: 80% !important;
+    
+}
+
+.btn-ajout{
+    color:#00a400 !important;
+    border-color: #00a400 !important;
+    border-width: 1px !important;
+    fill:#00a400 !important;
+}
+
+.btn-ajout:hover{
+    color:green !important;
+    border-color: green !important;
+    border-width: 1px !important;
+    fill:green !important;
 }

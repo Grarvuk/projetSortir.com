@@ -10,8 +10,8 @@
         <p>Nom de la ville : {{ ville.getNomVille() }}</p>
         <p>Code postal : {{ ville.getCodePostale() }}</p>
         <div>
-            <a href="{{ path('ville_update', {'id' : ville.id}) }}" class="btn btn-secondary">Modifier la ville</a>
-            <a href="{{ path('ville_delete', {'id' : ville.id}) }}" class="btn btn-secondary">Supprimer la ville</a>
+            <a href="{{ path('ville_update', {'id' : ville.id}) }}" class="btn btn-bleu ">Modifier la ville</a>
+            <a href="{{ path('ville_delete', {'id' : ville.id}) }}" class="btn btn-bleu ">Supprimer la ville</a>
         </div>
     </div>
 {% endblock %}

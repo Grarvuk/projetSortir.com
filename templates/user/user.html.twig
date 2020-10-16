@@ -15,8 +15,8 @@
         <p>Email : {{ user.mail }}</p>
         <p>Campus : {{ user.campus }}</p>
         {% if is_granted('ROLE_ADMIN') %}
-            <a class="nav-link" href="{{ path('admin_user_update', {'id' : user.id}) }}" class="btn btn-secondary">Modifier utilisateur</a>
-            <a class="nav-link" href="{{ path('user_delete', {'id' : user.id}) }}" class="btn btn-secondary">Supprimer utilisateur</a>
+            <a class="nav-link" href="{{ path('admin_user_update', {'id' : user.id}) }}" class="btn btn-bleu ">Modifier utilisateur</a>
+            <a class="nav-link" href="{{ path('user_delete', {'id' : user.id}) }}" class="btn btn-bleu ">Supprimer utilisateur</a>
         {% endif %}
     </div>
 {% endblock %}
