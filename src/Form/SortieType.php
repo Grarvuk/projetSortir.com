@@ -25,7 +25,7 @@ class SortieType extends AbstractType
                 , 'attr' => ['class' => $lesClass]
             ])
             ->add('datedebut', DateType::class, [
-                "label" => "Date de début"
+                "label" => "Date"
                 , 'attr' => ['class' => $lesClass]
                 , 'widget' => 'choice'
                 , 'input'  => 'datetime',
@@ -37,7 +37,7 @@ class SortieType extends AbstractType
                 , 'input'  => 'datetime',
             ])
             ->add('datecloture', DateType::class, [
-                "label" => "Date de fin"
+                "label" => "Date de cloture"
                 , 'attr' => ['class' => $lesClass]
                 , 'widget' => 'choice'
                 , 'input'  => 'datetime',

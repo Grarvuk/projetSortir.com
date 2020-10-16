@@ -32,11 +32,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Date de début</td>
+                    <td>Date</td>
                     <td>{{sortie.datedebut|date("m/d/Y")}}</td>
                 </tr>
                 <tr>
-                    <td>Date de fin</td>
+                    <td>Durée</td>
+                    <td>{{sortie.duree|date('H:i')}}</td>
+                </tr>
+                <tr>
+                    <td>Date de cloture</td>
                     <td>{{sortie.datecloture|date("m/d/Y")}}</td>
                 </tr>
                 <tr>
@@ -55,7 +59,7 @@
                 </tr>
                 <tr>
                     <td>Organisateur</td>
-                    <td>{{sortie.organisateur}}</td>
+                    <td><a href="{{ path('profile', {'id' : sortie.organisateur.id}) }}">{{sortie.organisateur}}</a></td>
                 </tr>
                 <tr>
                     <td>Lieu de la sortie</td>
@@ -173,7 +177,7 @@
         <tbody>
             {% for inscrit in lesInscrits %}
                 <tr>
-                    <td>{{inscrit.participant.pseudo}}</td>
+                    <td><a href="{{ path('profile', {'id' : inscrit.participant.id}) }}">{{inscrit.participant.pseudo}}</a></td>
                     <td>{{inscrit.participant.nom}} {{inscrit.participant.prenom}}</td>
                 </tr>
             {% endfor%}
